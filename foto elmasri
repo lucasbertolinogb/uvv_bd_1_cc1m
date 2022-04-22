@@ -1,0 +1,92 @@
+CREATE TABLE empresa.projeto (
+                numero_projeto INTEGER NOT NULL,
+                nome_projeto VARCHAR(15) NOT NULL,
+                local_projeto VARCHAR(15),
+                numero_departamento INTEGER NOT NULL,
+                CONSTRAINT numero_projeto_pk PRIMARY KEY (numero_projeto)
+);
+
+
+CREATE TABLE empresa.localizacoes_departamento (
+                numero_departamento INTEGER NOT NULL,
+                local VARCHAR(15) NOT NULL,
+                CONSTRAINT numero_departamento_pk PRIMARY KEY (numero_departamento, local)
+);
+
+
+CREATE TABLE empresa.funcionario (
+                cpf CHAR(11) NOT NULL,
+                primeiro_nome VARCHAR(15) NOT NULL,
+                nome_meio CHAR(1),
+                ultimo_nome VARCHAR(15) NOT NULL,
+                data_nascimento DATE,
+                endereco VARCHAR(30),
+                sexo CHAR(1),
+                salario NUMERIC(10,2),
+                cpf_supervisor CHAR(11) NOT NULL,
+                numero_departamento INTEGER NOT NULL,
+                CONSTRAINT cpf_pk PRIMARY KEY (cpf)
+);
+
+
+CREATE TABLE empresa.departamento (
+                numero_departamento INTEGER NOT NULL,
+                nome_departamento VARCHAR(15) NOT NULL,
+                cpf_gerenete CHAR(11) NOT NULL,
+                data_inicio_gerente DATE,
+                CONSTRAINT numero_departamento_pk PRIMARY KEY (numero_departamento)
+);
+
+
+CREATE TABLE empresa.trabalha_em (
+                cpf_funcionario CHAR(11) NOT NULL,
+                numero_projeto INTEGER NOT NULL,
+                horas NUMERIC(3,1) NOT NULL,
+                CONSTRAINT cpf_funcionario_pk PRIMARY KEY (cpf_funcionario, numero_projeto)
+);
+
+
+CREATE TABLE empresa.dependente (
+                cpf_funcionario CHAR(11) NOT NULL,
+                nome_dependente VARCHAR(15) NOT NULL,
+                sexo CHAR(1),
+                data_nascimento DATE,
+                parentesco VARCHAR(15) NOT NULL,
+                CONSTRAINT nome_dependente_pk PRIMARY KEY (cpf_funcionario, nome_dependente)
+);
+
+
+ALTER TABLE empresa.trabalha_em ADD CONSTRAINT projeto_trabalha_em_fk
+FOREIGN KEY (numero_projeto)
+REFERENCES empresa.projeto (numero_projeto)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE empresa.dependente ADD CONSTRAINT funcionario_dependente_fk
+FOREIGN KEY (cpf_funcionario)
+REFERENCES empresa.funcionario (cpf)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE empresa.funcionario ADD CONSTRAINT funcionario_funcionario_fk
+FOREIGN KEY (cpf_supervisor)
+REFERENCES empresa.funcionario (cpf)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE empresa.trabalha_em ADD CONSTRAINT funcionario_trabalha_em_fk
+FOREIGN KEY (cpf_funcionario)
+REFERENCES empresa.funcionario (cpf)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE empresa.departamento ADD CONSTRAINT funcionario_departamento_fk
+FOREIGN KEY (cpf_gerenete)
+REFERENCES empresa.funcionario (cpf)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+;
