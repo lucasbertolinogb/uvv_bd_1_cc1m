@@ -1,20 +1,24 @@
-CREATE TABLE empresa.projeto (
-                numero_projeto INTEGER NOT NULL,
+CREATE TABLE projeto (
+                numero_projeto INT NOT NULL,
                 nome_projeto VARCHAR(15) NOT NULL,
                 local_projeto VARCHAR(15),
-                numero_departamento INTEGER NOT NULL,
-                CONSTRAINT numero_projeto_pk PRIMARY KEY (numero_projeto)
+                numero_departamento INT NOT NULL,
+                PRIMARY KEY (numero_projeto)
 );
 
 
-CREATE TABLE empresa.localizacoes_departamento (
-                numero_departamento INTEGER NOT NULL,
+CREATE UNIQUE INDEX projeto_idx
+ ON projeto
+ ( nome_projeto );
+
+CREATE TABLE localizacoes_departamento (
+                numero_departamento INT NOT NULL,
                 local VARCHAR(15) NOT NULL,
-                CONSTRAINT numero_departamento_pk PRIMARY KEY (numero_departamento, local)
+                PRIMARY KEY (numero_departamento, local)
 );
 
 
-CREATE TABLE empresa.funcionario (
+CREATE TABLE funcionario (
                 cpf CHAR(11) NOT NULL,
                 primeiro_nome VARCHAR(15) NOT NULL,
                 nome_meio CHAR(1),
@@ -22,71 +26,70 @@ CREATE TABLE empresa.funcionario (
                 data_nascimento DATE,
                 endereco VARCHAR(30),
                 sexo CHAR(1),
-                salario NUMERIC(10,2),
+                salario DECIMAL(10,2),
                 cpf_supervisor CHAR(11) NOT NULL,
-                numero_departamento INTEGER NOT NULL,
-                CONSTRAINT cpf_pk PRIMARY KEY (cpf)
+                numero_departamento INT NOT NULL,
+                PRIMARY KEY (cpf)
 );
 
 
-CREATE TABLE empresa.departamento (
-                numero_departamento INTEGER NOT NULL,
+CREATE TABLE departamento (
+                numero_departamento INT NOT NULL,
                 nome_departamento VARCHAR(15) NOT NULL,
                 cpf_gerenete CHAR(11) NOT NULL,
                 data_inicio_gerente DATE,
-                CONSTRAINT numero_departamento_pk PRIMARY KEY (numero_departamento)
+                PRIMARY KEY (numero_departamento)
 );
 
 
-CREATE TABLE empresa.trabalha_em (
+CREATE UNIQUE INDEX departamento_idx
+ ON departamento
+ ( nome_departamento );
+
+CREATE TABLE trabalha_em (
                 cpf_funcionario CHAR(11) NOT NULL,
-                numero_projeto INTEGER NOT NULL,
-                horas NUMERIC(3,1) NOT NULL,
-                CONSTRAINT cpf_funcionario_pk PRIMARY KEY (cpf_funcionario, numero_projeto)
+                numero_projeto INT NOT NULL,
+                horas DECIMAL(3,1) NOT NULL,
+                PRIMARY KEY (cpf_funcionario, numero_projeto)
 );
 
 
-CREATE TABLE empresa.dependente (
+CREATE TABLE dependente (
                 cpf_funcionario CHAR(11) NOT NULL,
                 nome_dependente VARCHAR(15) NOT NULL,
                 sexo CHAR(1),
                 data_nascimento DATE,
                 parentesco VARCHAR(15) NOT NULL,
-                CONSTRAINT nome_dependente_pk PRIMARY KEY (cpf_funcionario, nome_dependente)
+                PRIMARY KEY (cpf_funcionario, nome_dependente)
 );
 
 
-ALTER TABLE empresa.trabalha_em ADD CONSTRAINT projeto_trabalha_em_fk
+ALTER TABLE trabalha_em ADD CONSTRAINT projeto_trabalha_em_fk
 FOREIGN KEY (numero_projeto)
-REFERENCES empresa.projeto (numero_projeto)
+REFERENCES projeto (numero_projeto)
 ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
+ON UPDATE NO ACTION;
 
-ALTER TABLE empresa.dependente ADD CONSTRAINT funcionario_dependente_fk
+ALTER TABLE dependente ADD CONSTRAINT funcionario_dependente_fk
 FOREIGN KEY (cpf_funcionario)
-REFERENCES empresa.funcionario (cpf)
+REFERENCES funcionario (cpf)
 ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
+ON UPDATE NO ACTION;
 
-ALTER TABLE empresa.funcionario ADD CONSTRAINT funcionario_funcionario_fk
+ALTER TABLE funcionario ADD CONSTRAINT funcionario_funcionario_fk
 FOREIGN KEY (cpf_supervisor)
-REFERENCES empresa.funcionario (cpf)
+REFERENCES funcionario (cpf)
 ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
+ON UPDATE NO ACTION;
 
-ALTER TABLE empresa.trabalha_em ADD CONSTRAINT funcionario_trabalha_em_fk
+ALTER TABLE trabalha_em ADD CONSTRAINT funcionario_trabalha_em_fk
 FOREIGN KEY (cpf_funcionario)
-REFERENCES empresa.funcionario (cpf)
+REFERENCES funcionario (cpf)
 ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
+ON UPDATE NO ACTION;
 
-ALTER TABLE empresa.departamento ADD CONSTRAINT funcionario_departamento_fk
+ALTER TABLE departamento ADD CONSTRAINT funcionario_departamento_fk
 FOREIGN KEY (cpf_gerenete)
-REFERENCES empresa.funcionario (cpf)
+REFERENCES funcionario (cpf)
 ON DELETE NO ACTION
-ON UPDATE NO ACTION
-;
+ON UPDATE NO ACTION;
