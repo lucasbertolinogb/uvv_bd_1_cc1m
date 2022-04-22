@@ -1,3 +1,8 @@
+CREATE DATABASE empresa;
+
+USE empresa;
+
+
 CREATE TABLE projeto (
                 numero_projeto INT NOT NULL,
                 nome_projeto VARCHAR(15) NOT NULL,
