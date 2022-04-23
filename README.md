@@ -5,7 +5,7 @@ Esta é uma atividade(pset1) dada pelo professor de banco de dados: Abrantes Ara
 
 Nela eu mostrarei como resolverei os códigos e problemas propostos.
 
->Foto da tabela elmasri traduzida
+>Foto da tabela elmasri traduzida com erros 
 
 CREATE DATABASE empresa;
 
@@ -73,7 +73,7 @@ CREATE TABLE dependente (
                 nome_dependente VARCHAR(15) NOT NULL,
                 sexo CHAR(1),
                 data_nascimento DATE,
-                parentesco VARCHAR(15) NOT NULL,
+                parentesco VARCHAR(15) ,
                 PRIMARY KEY (cpf_funcionario, nome_dependente)
 );
 
@@ -102,5 +102,6 @@ ALTER TABLE departamento ADD CONSTRAINT funcionario_departamento_fk
 FOREIGN KEY (cpf_gerenete)
 REFERENCES funcionario (cpf)
 ;
+
 >término da tabela de elmasri
 
