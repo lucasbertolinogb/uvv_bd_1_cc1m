@@ -3,9 +3,9 @@ CREATE DATABASE empresa;
 USE empresa;
 
 
-CREATE TABLE projeto (
-                numero_projeto INT NOT NULL,
-                nome_projeto VARCHAR(15) NOT NULL,
+CREATE TABLE projeto  (
+                numero_projeto INT NOT NULL ,
+                nome_projeto VARCHAR(15) NOT NULL ,
                 local_projeto VARCHAR(15),
                 numero_departamento INT NOT NULL,
                 PRIMARY KEY (numero_projeto)
@@ -72,29 +72,24 @@ CREATE TABLE dependente (
 ALTER TABLE trabalha_em ADD CONSTRAINT projeto_trabalha_em_fk
 FOREIGN KEY (numero_projeto)
 REFERENCES projeto (numero_projeto)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION;
+;
 
 ALTER TABLE dependente ADD CONSTRAINT funcionario_dependente_fk
 FOREIGN KEY (cpf_funcionario)
 REFERENCES funcionario (cpf)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION;
+;
 
 ALTER TABLE funcionario ADD CONSTRAINT funcionario_funcionario_fk
 FOREIGN KEY (cpf_supervisor)
 REFERENCES funcionario (cpf)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION;
+;
 
 ALTER TABLE trabalha_em ADD CONSTRAINT funcionario_trabalha_em_fk
 FOREIGN KEY (cpf_funcionario)
 REFERENCES funcionario (cpf)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION;
+;
 
 ALTER TABLE departamento ADD CONSTRAINT funcionario_departamento_fk
 FOREIGN KEY (cpf_gerenete)
 REFERENCES funcionario (cpf)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION;
+;
