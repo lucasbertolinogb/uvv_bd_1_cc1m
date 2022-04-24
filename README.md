@@ -220,4 +220,4 @@ FOREIGN KEY (numero_projeto)
 REFERENCES uvv.projeto (numero_projeto)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
-
+>término da tabela usando o terminal de Postgresql
