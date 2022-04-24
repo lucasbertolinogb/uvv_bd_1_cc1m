@@ -5,7 +5,7 @@ Esta é uma atividade(pset1) dada pelo professor de banco de dados: Abrantes Ara
 
 Nela eu mostrarei como resolverei os códigos e problemas propostos.
 
->Foto da tabela elmasri traduzida com erros 
+>Foto da tabela elmasri traduzida com erros (obs:ela é feita para o terminal mysql)
 
 CREATE DATABASE empresa;
 
