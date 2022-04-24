@@ -103,5 +103,5 @@ FOREIGN KEY (cpf_gerenete)
 REFERENCES funcionario (cpf)
 ;
 
->término da tabela de elmasri
+>término da tabela de elmasri usando o terminal Mysql
 
