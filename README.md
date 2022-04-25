@@ -107,7 +107,7 @@ REFERENCES funcionario (cpf)
 
 >usando a mesma foto agora com o terminal de Postgresql
 
-CREATE TABLE uvv.funcionario (
+CREATE TABLE funcionario (----------------------------------------------------
                 cpf CHAR(11) NOT NULL,
                 primeiro_nome VARCHAR(15) NOT NULL,
                 nome_meio CHAR(1),
@@ -122,12 +122,12 @@ CREATE TABLE uvv.funcionario (
 );
 
 
-CREATE TABLE uvv.departamento (
+CREATE TABLE departamento (
                 numero_departamento INTEGER NOT NULL,
                 nome_departamento VARCHAR(15) NOT NULL,
                 cpf_gerenete CHAR(11) NOT NULL,
                 data_inicio_gerente DATE,
-                CONSTRAINT numero_departamento_pk PRIMARY KEY (numero_departamento)
+                CONSTRAINT numero_departamento PRIMARY KEY (numero_departamento)
 );
 
 
@@ -135,7 +135,7 @@ CREATE UNIQUE INDEX departamento_idx
  ON uvv.departamento
  ( nome_departamento );
 
-CREATE TABLE uvv.projeto (
+CREATE TABLE projeto (--------------------------------------------------------------
                 numero_projeto INTEGER NOT NULL,
                 nome_projeto VARCHAR(15) NOT NULL,
                 local_projeto VARCHAR(15),
@@ -148,7 +148,7 @@ CREATE UNIQUE INDEX projeto_idx
  ON uvv.projeto
  ( nome_projeto );
 
-CREATE TABLE uvv.localizacoes_departamento (
+CREATE TABLE localizacoes_departamento (
                 numero_departamento INTEGER NOT NULL,
                 local VARCHAR(15) NOT NULL,
                 CONSTRAINT numero_departamento_pk PRIMARY KEY (numero_departamento, local)
