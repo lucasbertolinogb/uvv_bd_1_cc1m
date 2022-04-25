@@ -1,4 +1,5 @@
 >códigos sem o MarkDawn
+>Usando o Mysql 
 
 CREATE DATABASE empresa;
 
@@ -100,3 +101,7 @@ INSERT INTO funcionario values (
                 "João", "B", "Silva", 12345678966, '09-01-1965' , "Rua das Flores,751, São Paulo ,SP", "M", 30.000, 33344555587, 5
             
 );
+
+>Termino dos comandos usando o Mysql
+
+>Usando o terminal PostregesSQL
