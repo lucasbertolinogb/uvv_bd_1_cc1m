@@ -122,7 +122,7 @@ CREATE TABLE funcionario (----------------------------------------------------
 );
 
 
-CREATE TABLE departamento (
+CREATE TABLE departamento (--------------------------------------------------------
                 numero_departamento INTEGER NOT NULL,
                 nome_departamento VARCHAR(15) NOT NULL,
                 cpf_gerenete CHAR(11) NOT NULL,
@@ -131,8 +131,8 @@ CREATE TABLE departamento (
 );
 
 
-CREATE UNIQUE INDEX departamento_idx
- ON uvv.departamento
+CREATE UNIQUE INDEX departamento_idx----------
+ ON departamento
  ( nome_departamento );
 
 CREATE TABLE projeto (--------------------------------------------------------------
@@ -140,84 +140,84 @@ CREATE TABLE projeto (----------------------------------------------------------
                 nome_projeto VARCHAR(15) NOT NULL,
                 local_projeto VARCHAR(15),
                 numero_departamento INTEGER NOT NULL,
-                CONSTRAINT numero_projeto_pk PRIMARY KEY (numero_projeto)
+                CONSTRAINT numero_projeto PRIMARY KEY (numero_projeto)
 );
 
 
-CREATE UNIQUE INDEX projeto_idx
- ON uvv.projeto
+CREATE UNIQUE INDEX projeto_idx-------------------
+ ON projeto
  ( nome_projeto );
 
 CREATE TABLE localizacoes_departamento (
                 numero_departamento INTEGER NOT NULL,
                 local VARCHAR(15) NOT NULL,
-                CONSTRAINT numero_departamento_pk PRIMARY KEY (numero_departamento, local)
+                CONSTRAINT numero_departamento PRIMARY KEY (numero_departamento, local)
 );
 
 
-CREATE TABLE uvv.trabalha_em (
+CREATE TABLE trabalha_em (-------------------------------------
                 cpf_funcionario CHAR(11) NOT NULL,
                 numero_projeto INTEGER NOT NULL,
                 horas NUMERIC(3,1) NOT NULL,
-                CONSTRAINT cpf_funcionario_pk PRIMARY KEY (cpf_funcionario, numero_projeto)
+                CONSTRAINT cpf_funcionario PRIMARY KEY (cpf_funcionario, numero_projeto)
 );
 
 
-CREATE TABLE uvv.dependente (
+CREATE TABLE dependente (-------------------------------------
                 cpf_funcionario CHAR(11) NOT NULL,
                 nome_dependente VARCHAR(15) NOT NULL,
                 sexo CHAR(1),
                 data_nascimento DATE,
                 parentesco VARCHAR(15),
-                CONSTRAINT nome_dependente_pk PRIMARY KEY (cpf_funcionario, nome_dependente)
+                CONSTRAINT nome_dependente PRIMARY KEY (cpf_funcionario, nome_dependente)
 );
 
 
-ALTER TABLE uvv.dependente ADD CONSTRAINT funcionario_dependente_fk
+ALTER TABLE dependente ADD CONSTRAINT funcionario_dependente
 FOREIGN KEY (cpf_funcionario)
-REFERENCES uvv.funcionario (cpf)
+REFERENCES funcionario (cpf)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE uvv.funcionario ADD CONSTRAINT funcionario_funcionario_fk
+ALTER TABLE funcionario ADD CONSTRAINT funcionario_funcionario
 FOREIGN KEY (cpf_supervisor)
-REFERENCES uvv.funcionario (cpf)
+REFERENCES funcionario (cpf)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE uvv.trabalha_em ADD CONSTRAINT funcionario_trabalha_em_fk
+ALTER TABLE trabalha_em ADD CONSTRAINT funcionario_trabalha_em
 FOREIGN KEY (cpf_funcionario)
-REFERENCES uvv.funcionario (cpf)
+REFERENCES funcionario (cpf)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE uvv.departamento ADD CONSTRAINT funcionario_departamento_fk
+ALTER TABLE departamento ADD CONSTRAINT funcionario_departamento
 FOREIGN KEY (cpf_gerenete)
-REFERENCES uvv.funcionario (cpf)
+REFERENCES funcionario (cpf)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE uvv.localizacoes_departamento ADD CONSTRAINT departamento_localizacoes_departamento_fk
+ALTER TABLE localizacoes_departamento ADD CONSTRAINT departamento_localizacoes_departamento
 FOREIGN KEY (numero_departamento)
-REFERENCES uvv.departamento (numero_departamento)
+REFERENCES departamento (numero_departamento)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE uvv.projeto ADD CONSTRAINT departamento_projeto_fk
+ALTER TABLE projeto ADD CONSTRAINT departamento_projeto
 FOREIGN KEY (numero_departamento)
-REFERENCES uvv.departamento (numero_departamento)
+REFERENCES departamento (numero_departamento)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE uvv.trabalha_em ADD CONSTRAINT projeto_trabalha_em_fk
+ALTER TABLE trabalha_em ADD CONSTRAINT projeto_trabalha_em
 FOREIGN KEY (numero_projeto)
-REFERENCES uvv.projeto (numero_projeto)
+REFERENCES projeto (numero_projeto)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 >término da tabela usando o terminal de Postgresql 
