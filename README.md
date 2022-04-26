@@ -6,15 +6,14 @@ Esta é uma atividade(pset1) dada pelo professor de banco de dados: Abrantes Ara
 Nela eu mostrarei como resolverei os códigos e problemas propostos.
 
 >Foto da tabela elmasri traduzida (obs:ela é feita para o terminal mysql)
-
 CREATE DATABASE empresa;
 
 USE empresa;
 
 
 CREATE TABLE projeto (
-                numero_projeto/*O identificador de projeto*/ INT NOT NULL ,
                 nome_projeto/*Como ele e chamdo*/ VARCHAR(15) NOT NULL ,
+                numero_projeto/*O identificador de projeto*/ INT NOT NULL ,               
                 local_projeto/*Local do projeto*/ VARCHAR(15),
                 numero_departamento/*Numero do departamento*/ INT NOT NULL,
                 PRIMARY KEY (numero_projeto)
@@ -45,11 +44,10 @@ CREATE TABLE funcionario (
                 numero_departamento/*numero do departamento*/ INT NOT NULL,
                 PRIMARY KEY (cpf)
 );
->obs:o endereço esta com VARCHAR(50) pois para inser as informações é necessário algo entre *30* e *40*
 
 CREATE TABLE departamento (
-                numero_departamento/*numero do departamento*/ INT NOT NULL,
                 nome_departamento/*nome do departamento*/ VARCHAR(15) NOT NULL,
+                numero_departamento/*numero do departamento*/ INT NOT NULL,
                 cpf_gerenete/*cpf do gerente do departamento*/ CHAR(11) NOT NULL,
                 data_inicio_gerente/*quando o gerente entrou no departamento*/ DATE,
                 PRIMARY KEY (numero_departamento)
@@ -77,36 +75,234 @@ CREATE TABLE dependente (
                 PRIMARY KEY (cpf_funcionario, nome_dependente)
 );
 
-
-ALTER TABLE trabalha_em ADD CONSTRAINT projeto_trabalha_em_fk 
-FOREIGN KEY (numero_projeto)
-REFERENCES projeto (numero_projeto)
-;
-
-ALTER TABLE dependente ADD CONSTRAINT funcionario_dependente_fk 
-FOREIGN KEY (cpf_funcionario)
-REFERENCES funcionario (cpf)
-;
-
-ALTER TABLE funcionario ADD CONSTRAINT funcionario_funcionario_fk 
-FOREIGN KEY (cpf_supervisor)
-REFERENCES funcionario (cpf)
-;
-
-ALTER TABLE trabalha_em ADD CONSTRAINT funcionario_trabalha_em_fk 
-FOREIGN KEY (cpf_funcionario)
-REFERENCES funcionario (cpf)
-;
-
-ALTER TABLE departamento ADD CONSTRAINT funcionario_departamento_fk 
-FOREIGN KEY (cpf_gerenete)
-REFERENCES funcionario (cpf)
-;
+INSERT INTO funcionario values (
+                "João", "B", "Silva", 12345678966, '1965-01-09' , "Rua das Flores,751, São Paulo ,SP", "M", 30.000, 33344555587, 5            
+);
 
 INSERT INTO funcionario values (
-                "João", "B", "Silva", 12345678966, '09-01-1965' , "Rua das Flores,751, São Paulo ,SP", "M", 30.000, 33344555587, 5
-            
+                "Fernando", "T", "Wong", 33344555587, '1955-12-08', "Rua da Lapa, 34, São Paulo, SP", "M", 40.000, 88866555576, 5
 );
+
+INSERT INTO funcionario values (
+                 "Alice", "J", "Zelaya", 99955777767, '1968-01-19', "Rua Souza Lima, 35, Curutiba, PR", "F", 43.000, 88866555576, 4
+);
+
+INSERT INTO funcionario values (
+                 "Jennifer", "S", "Souza", 98765432168, '1941-06-20', "Av. Arthur de Lima, 54, Santo André, SP", "F", 43.000, 88866555576, 4
+);
+
+INSERT INTO funcionario values (
+                "Ronaldo", "K", "Lima", 66688444476, '1962-09-15', "Rua Rebouças, 65, Piracicaba, SP", "M", 38.000, 33344555587, 5
+);
+
+INSERT INTO funcionario values (
+                 "Joice", "A", "Leite", 45345345376, '1972-07-31', "Av. Lucas Obes, 74, São Paulo, SP", "F", 25.000, 33344555587, 5
+);                 
+
+INSERT INTO funcionario values (
+                 "André", "V", "Pereira", 98798798733, '1969-03-29', "Rua Timbira, 35, São Paulo, SP", "M", 25.000, 98765432168, 4
+);           
+
+INSERT INTO funcionario values (
+                 "Jorge", "E", "Brito", 88866555576, '1937-11-10', "Rua do Horto, 35, São Paulo, SP" , "M",55.000, 0 , 1
+);           
+
+INSERT INTO departamento values (
+                "Pesquisa", 5, 33344555587, '1988-05-22'
+);
+
+INSERT INTO departamento values (
+                "Administração", 4, 98765432168, '1955-01-01'
+);
+
+INSERT INTO departamento values (
+                "Matriz", 1 , 88866555576, '1981-06-19'
+);
+
+INSERT INTO localizacoes_departamento values (
+                1, "São Paulo"
+);
+
+INSERT INTO localizacoes_departamento values (
+               4, "Mauá"
+);
+
+INSERT INTO localizacoes_departamento values (
+               5, "Santo André"
+);
+
+INSERT INTO localizacoes_departamento values (
+               5, "Itu"
+);
+
+INSERT INTO localizacoes_departamento values (
+               5, "São Paulo"
+);
+
+INSERT INTO projeto values (
+               "ProdutoX", 1, "Santo André", 5
+);
+
+INSERT INTO projeto values (
+               "ProdutoY", 2, "Itu", 5
+);
+
+INSERT INTO projeto values (
+               "ProdutoZ", 3, "São Paulo", 5
+);
+
+INSERT INTO projeto values (
+               "Informatização", 10, "Mauá", 4
+);
+
+INSERT INTO projeto values (
+               "Reorganização", 20, "São Paulo", 1
+);
+
+INSERT INTO projeto values (
+               "Novosbeneficios", 30, "Mauá", 4
+);
+
+INSERT INTO dependente values (
+               33344555587, "Alicia", "F", '1986-04-05', "Filha"
+);
+
+INSERT INTO dependente values (
+               33344555587, "Tiago", "M", '1983-10-25', "Filho"
+);
+
+INSERT INTO dependente values (
+               33344555587, "Janaína", "F", '1958-05-03', "Esposa"
+);
+
+INSERT INTO dependente values (
+               98765432168, "Antonio", "M", '1942-02-28', "Marido"
+);
+
+INSERT INTO dependente values (
+               12345678966, "Michael", "M", '1988-01-04', "Filho"
+);
+
+INSERT INTO dependente values (
+               12345678966, "Alicia", "F", '1988-12-30', "Filha"
+);
+
+INSERT INTO dependente values (
+             12345678966, "Elizabeth", "F", '1967-05-05', "Esposa"
+);
+
+INSERT INTO trabalha_em values (
+             12345678966, 1, 32.5
+);
+
+INSERT INTO trabalha_em values (
+             12345678966, 2, 7.5
+);
+
+INSERT INTO trabalha_em values (
+             66655444476, 3, 40.0
+);
+
+INSERT INTO trabalha_em values (
+             45345345376, 1, 20.0
+);
+
+INSERT INTO trabalha_em values (
+             45345345376, 2, 20.0
+);
+
+INSERT INTO trabalha_em values (
+             33344555587, 2, 10.0
+);
+
+INSERT INTO trabalha_em values (
+             33344555587, 3, 10.0
+);
+
+INSERT INTO trabalha_em values (
+             33344555587, 10, 10.0
+);
+
+INSERT INTO trabalha_em values (
+             33344555587, 20, 10.0
+);
+
+INSERT INTO trabalha_em values (
+             99988777767, 30, 30.0
+);
+
+INSERT INTO trabalha_em values (
+             99988777767, 10, 10.0
+);
+
+INSERT INTO trabalha_em values (
+             98798798733, 10, 35.0
+);
+
+INSERT INTO trabalha_em values (
+             98798798733, 30, 5.0
+);
+
+INSERT INTO trabalha_em values (
+             98765432168, 30, 20.0
+);
+
+INSERT INTO trabalha_em values (
+             98765432168, 20, 15.0
+);
+
+INSERT INTO trabalha_em values (
+             88866555576, 20, 0
+);
+
+ALTER TABLE dependente ADD CONSTRAINT funcionario_dependente_fk 
+FOREIGN KEY (cpf_funcionario) 
+REFERENCES funcionario (cpf) 
+ON DELETE NO ACTION 
+ON UPDATE NO ACTION;
+
+ALTER TABLE funcionario ADD CONSTRAINT funcionario_funcionario_fk 
+FOREIGN KEY (cpf_supervisor) 
+REFERENCES funcionario (cpf) 
+ON DELETE NO ACTION 
+ON UPDATE NO ACTION;
+>obs: essa parte não funciona , pois, necessita de outra tabela intermediária para somente cpf_supervisor (que no caso *não fiz*)
+
+
+ALTER TABLE trabalha_em ADD CONSTRAINT funcionario_trabalha_em_fk 
+FOREIGN KEY (cpf_funcionario) 
+REFERENCES funcionario (cpf) 
+ON DELETE NO ACTION 
+ON UPDATE NO ACTION;
+
+ALTER TABLE departamento ADD CONSTRAINT funcionario_departamento_fk 
+FOREIGN KEY (cpf_gerenete) 
+REFERENCES funcionario (cpf) 
+ON DELETE NO ACTION 
+ON UPDATE NO ACTION;
+
+ALTER TABLE localizacoes_departamento ADD CONSTRAINT departamento_localizacoes_departamento_fk 
+FOREIGN KEY (numero_departamento) 
+REFERENCES departamento (numero_departamento) 
+ON DELETE NO ACTION 
+ON UPDATE NO ACTION;
+
+ALTER TABLE projeto ADD CONSTRAINT departamento_projeto_fk 
+FOREIGN KEY (numero_departamento) 
+REFERENCES departamento (numero_departamento) 
+ON DELETE NO ACTION 
+ON UPDATE NO ACTION;
+
+ALTER TABLE trabalha_em ADD CONSTRAINT projeto_trabalha_em_fk
+FOREIGN KEY (numero_projeto) 
+REFERENCES projeto (numero_projeto) 
+ON DELETE NO ACTION;
+
+
+
+
+
+
 
 >término da tabela de elmasri usando o terminal Mysql--------------------------------------------------------------------------------------------
 -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
