@@ -309,6 +309,11 @@ CREATE TABLE funcionario (
                 CONSTRAINT cpf_pk PRIMARY KEY (cpf)
 );
 
+
+INSERT INTO funcionario values (cpf, primeiro_nome, nome_meio, ultimo_nome, data_nascimento, endereco, sexo, salario, cpf_supervisor, numero_departamento)
+                12345678966, "João", "B", "Silva",  '1965-01-09' , "Rua das Flores,751, São Paulo ,SP", "M", 30.000, 33344555587, 5            
+);
+
 COMMENT ON TABLE funcionario IS 'É uma tabela para os funcionários da empresa como suas informações gerais';
 
 CREATE TABLE departamento (
