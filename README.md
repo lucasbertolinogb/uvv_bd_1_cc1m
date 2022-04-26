@@ -5,13 +5,13 @@ Esta é uma atividade(pset1) dada pelo professor de banco de dados: Abrantes Ara
 
 Nela eu mostrarei como resolverei os códigos e problemas propostos.
 
->*OBS:SE FOR COPIAR TUDO FAÇA ISSO NO ARQUIVO* foto elmasri-architect(código)
+>*OBS: SE FOR COPIAR TUDO FAÇA ISSO NO ARQUIVO* foto elmasri-architect(código)
 >Foto da tabela elmasri traduzida (obs:ela é feita para o terminal mysql)
 CREATE DATABASE empresa;
 
 USE empresa;
 
->Até aqui eu crei um banco de dados (create database) e comecei a usa-lo (use empresa)
+>Até aqui eu crei um banco de dados (create database) e comecei a usa-lo (use empresa).
 
 CREATE TABLE projeto (
                 nome_projeto/*Como ele e chamdo*/ VARCHAR(15) NOT NULL ,
@@ -21,13 +21,13 @@ CREATE TABLE projeto (
                 PRIMARY KEY (numero_projeto)
 );
 
->Uma tabela (table) com as configurações e suas especificações
+>Uma tabela (table) com as configurações e suas especificações.
 
 CREATE UNIQUE INDEX projeto_idx
  ON projeto
  ( nome_projeto );
  
- >Chave única em nome_projeto
+ >Chave única em nome_projeto.
 
 CREATE TABLE localizacoes_departamento (
                 numero_departamento/*Numero do departamento*/ INT NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE localizacoes_departamento (
                 PRIMARY KEY (numero_departamento, local)
 );
 
->Tabela de localização dos departamento é um bom banco de dados para se ter na mão quando não se sabe o local de trabalho
+>Tabela de localização dos departamento é um bom banco de dados para se ter na mão quando não se sabe o local de trabalho.
 
 CREATE TABLE funcionario (
                 primeiro_nome/*Nome formal*/ VARCHAR(15) NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE funcionario (
                 PRIMARY KEY (cpf)
 );
 
->Tabela com as informações gerais do funcionário 
+>Tabela com as informações gerais do funcionário .
 
 CREATE TABLE departamento (
                 nome_departamento/*nome do departamento*/ VARCHAR(15) NOT NULL,
@@ -61,11 +61,13 @@ CREATE TABLE departamento (
                 PRIMARY KEY (numero_departamento)
 );
 
->Tabela sobre os departamento
+>Tabela sobre os departamento gerais e quem é seu gerente.
 
 CREATE UNIQUE INDEX departamento_idx
  ON departamento
  ( nome_departamento );
+
+>Chave única da tabela departamento em nome_departamento.
 
 CREATE TABLE trabalha_em (
                 cpf_funcionario/*cpf do funcionario*/ CHAR(11) NOT NULL,
@@ -74,6 +76,7 @@ CREATE TABLE trabalha_em (
                 PRIMARY KEY (cpf_funcionario, numero_projeto)
 );
 
+>Tabela trabalha_em referece a carga horária de cada funcionário.
 
 CREATE TABLE dependente (
                 cpf_funcionario/*cpf do funcionario*/ CHAR(11) NOT NULL,
@@ -83,6 +86,8 @@ CREATE TABLE dependente (
                 parentesco/*relacao sanguinea*/ VARCHAR(15) ,
                 PRIMARY KEY (cpf_funcionario, nome_dependente)
 );
+
+>Tabela dependente ,de modo simples,são pessoas com relação sanguínea com os funcionarios (se tiver) na empresa.
 
 INSERT INTO funcionario values (
                 "João", "B", "Silva", 12345678966, '1965-01-09' , "Rua das Flores,751, São Paulo ,SP", "M", 30.000, 33344555587, 5            
@@ -116,6 +121,10 @@ INSERT INTO funcionario values (
                  "Jorge", "E", "Brito", 88866555576, '1937-11-10', "Rua do Horto, 35, São Paulo, SP" , "M",55.000, 0 , 1
 );           
 
+>São 'valores' inseridos na tabela funcionário como exemplo : jorge (primeiro_nome), E (nome_meio), Brito (ultimo_nome), 88866555576 (cpf), 1937-11-10 (data_nascimento), Rua do Horto, 35, São Paulo, SP (endereco), M (sexo), 55.000(salario), 0(cpf_supervisor)*-obs: esse é um valor NULL ou 'vazio'*, 1 (numero_departamento)
+
+>Agora é inserindo valores no departamento , ... o que você esta lendo? *não* vou fazer a mesma coisa de cima.
+>
 INSERT INTO departamento values (
                 "Pesquisa", 5, 33344555587, '1988-05-22'
 );
@@ -127,6 +136,8 @@ INSERT INTO departamento values (
 INSERT INTO departamento values (
                 "Matriz", 1 , 88866555576, '1981-06-19'
 );
+
+>Inserindo valores em localizações do departamento
 
 INSERT INTO localizacoes_departamento values (
                 1, "São Paulo"
@@ -172,6 +183,8 @@ INSERT INTO projeto values (
                "Novosbeneficios", 30, "Mauá", 4
 );
 
+>Injetando informações em dependente 
+
 INSERT INTO dependente values (
                33344555587, "Alicia", "F", '1986-04-05', "Filha"
 );
@@ -199,6 +212,8 @@ INSERT INTO dependente values (
 INSERT INTO dependente values (
              12345678966, "Elizabeth", "F", '1967-05-05', "Esposa"
 );
+
+>Adiocionando valore me trabalha_em
 
 INSERT INTO trabalha_em values (
              12345678966, 1, 32.5
@@ -264,6 +279,8 @@ INSERT INTO trabalha_em values (
              88866555576, 20, 0
 );
 
+>OBS: tem algumas chaves que estão com problema e por isso quem for copiar terá que resolve-la.Qual o motivo disso ? Resposta= preguiça
+
 ALTER TABLE dependente ADD CONSTRAINT funcionario_dependente_fk 
 FOREIGN KEY (cpf_funcionario) 
 REFERENCES funcionario (cpf) 
@@ -307,17 +324,13 @@ FOREIGN KEY (numero_projeto)
 REFERENCES projeto (numero_projeto) 
 ON DELETE NO ACTION;
 
+>término da tabela de elmasri usando o terminal Mysql
 
-
-
-
-
-
->término da tabela de elmasri usando o terminal Mysql--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
 -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 #######################################################################################################################################################################
 *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
->usando a mesma foto agora com o terminal de Postgresql--------------------------------------------------------------------------------------------
+>Agora é usando o terminal de PostgreSQL (ou elefante do BD)
 
 CREATE TABLE funcionario (
                 cpf CHAR(11) NOT NULL,
@@ -333,6 +346,10 @@ CREATE TABLE funcionario (
                 CONSTRAINT cpf_pk PRIMARY KEY (cpf)
 );
 
+>Para para COMMENT em postgres é necessários para cada linha , ao contrário do Mysql o Postgres é mais lento em escrever os comentários
+
+
+COMMENT ON TABLE funcionario IS 'É uma tabela para os funcionários da empresa como suas informações gerais';
 
 CREATE TABLE departamento (
                 numero_departamento INTEGER NOT NULL,
