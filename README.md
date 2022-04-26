@@ -6,6 +6,7 @@ Esta é uma atividade(pset1) dada pelo professor de banco de dados: Abrantes Ara
 Nela eu mostrarei como resolverei os códigos e problemas propostos.
 
 >*OBS: SE FOR COPIAR TUDO FAÇA ISSO NO ARQUIVO* foto elmasri-architect(código)
+>OBS2: NÂO tem dados INSERIDOS no POSTGRES
 >Foto da tabela elmasri traduzida (obs:ela é feita para o terminal mysql)
 CREATE DATABASE empresa;
 
@@ -331,6 +332,7 @@ ON DELETE NO ACTION;
 #######################################################################################################################################################################
 *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 >Agora é usando o terminal de PostgreSQL (ou elefante do BD)
+>Obs: não tem os dados inseridos em nenhuma parte deste pset-1 do Postgres
 
 CREATE TABLE funcionario (
                 cpf CHAR(11) NOT NULL,
@@ -400,7 +402,6 @@ CREATE TABLE dependente (
                 parentesco VARCHAR(15),
                 CONSTRAINT nome_dependente PRIMARY KEY (cpf_funcionario, nome_dependente)
 );
-
 
 ALTER TABLE dependente ADD CONSTRAINT funcionario_dependente
 FOREIGN KEY (cpf_funcionario)
