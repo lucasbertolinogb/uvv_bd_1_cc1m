@@ -1,4 +1,3 @@
->códigos sem o MarkDawn
 >Usando o Mysql 
 
 CREATE DATABASE empresa;
@@ -250,34 +249,6 @@ INSERT INTO trabalha_em values (
              88866555576, 20, 0
 );
 
-ALTER TABLE trabalha_em ADD CONSTRAINT projeto_trabalha_em 
-FOREIGN KEY (numero_projeto)
-REFERENCES projeto (numero_projeto)
-;
-
-ALTER TABLE dependente ADD CONSTRAINT funcionario_dependente 
-FOREIGN KEY (cpf_funcionario)
-REFERENCES funcionario (cpf)
-;
-
-ALTER TABLE funcionario ADD CONSTRAINT funcionario_funcionario
-FOREIGN KEY (cpf_supervisor)
-REFERENCES funcionario (cpf)
-;
-
-ALTER TABLE trabalha_em ADD CONSTRAINT funcionario_trabalha_em 
-FOREIGN KEY (cpf_funcionario) 
-REFERENCES funcionario (cpf)
-;
-
-ALTER TABLE departamento ADD CONSTRAINT funcionario_departamento 
-FOREIGN KEY (cpf_gerenete) 
-REFERENCES funcionario (cpf)
-;
--------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------
-
 ALTER TABLE dependente ADD CONSTRAINT funcionario_dependente_fk 
 FOREIGN KEY (cpf_funcionario) 
 REFERENCES funcionario (cpf) 
@@ -322,3 +293,119 @@ ON DELETE NO ACTION;
 >Termino dos comandos usando o Mysql
 
 >Usando o terminal PostregesSQL
+
+
+CREATE TABLE funcionario (
+                cpf CHAR(11) NOT NULL,
+                primeiro_nome VARCHAR(15) NOT NULL,
+                nome_meio CHAR(1),
+                ultimo_nome VARCHAR(15) NOT NULL,
+                data_nascimento DATE,
+                endereco VARCHAR(30),
+                sexo CHAR(1),
+                salario NUMERIC(10,2),
+                cpf_supervisor CHAR(11) NOT NULL,
+                numero_departamento INTEGER NOT NULL,
+                CONSTRAINT cpf_pk PRIMARY KEY (cpf)
+);
+
+COMMENT ON TABLE funcionario IS 'É uma tabela para os funcionários da empresa como suas informações gerais';
+
+CREATE TABLE departamento (
+                numero_departamento INTEGER NOT NULL,
+                nome_departamento VARCHAR(15) NOT NULL,
+                cpf_gerenete CHAR(11) NOT NULL,
+                data_inicio_gerente DATE,
+                CONSTRAINT numero_departamento PRIMARY KEY (numero_departamento)
+);
+
+
+CREATE UNIQUE INDEX departamento_idx
+ ON departamento
+ ( nome_departamento );
+
+CREATE TABLE projeto (
+                numero_projeto INTEGER NOT NULL,
+                nome_projeto VARCHAR(15) NOT NULL,
+                local_projeto VARCHAR(15),
+                numero_departamento INTEGER NOT NULL,
+                CONSTRAINT numero_projeto PRIMARY KEY (numero_projeto)
+);
+
+
+CREATE UNIQUE INDEX projeto_idx
+ ON projeto
+ ( nome_projeto );
+
+CREATE TABLE localizacoes_departamento (
+                numero_departamento INTEGER NOT NULL,
+                local VARCHAR(15) NOT NULL,
+                CONSTRAINT numero_departamento PRIMARY KEY (numero_departamento, local)
+);
+
+
+CREATE TABLE trabalha_em (
+                cpf_funcionario CHAR(11) NOT NULL,
+                numero_projeto INTEGER NOT NULL,
+                horas NUMERIC(3,1) NOT NULL,
+                CONSTRAINT cpf_funcionario PRIMARY KEY (cpf_funcionario, numero_projeto)
+);
+
+
+CREATE TABLE dependente (
+                cpf_funcionario CHAR(11) NOT NULL,
+                nome_dependente VARCHAR(15) NOT NULL,
+                sexo CHAR(1),
+                data_nascimento DATE,
+                parentesco VARCHAR(15),
+                CONSTRAINT nome_dependente PRIMARY KEY (cpf_funcionario, nome_dependente)
+);
+
+
+ALTER TABLE dependente ADD CONSTRAINT funcionario_dependente
+FOREIGN KEY (cpf_funcionario)
+REFERENCES funcionario (cpf)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE funcionario ADD CONSTRAINT funcionario_funcionario
+FOREIGN KEY (cpf_supervisor)
+REFERENCES funcionario (cpf)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE trabalha_em ADD CONSTRAINT funcionario_trabalha_em
+FOREIGN KEY (cpf_funcionario)
+REFERENCES funcionario (cpf)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE departamento ADD CONSTRAINT funcionario_departamento
+FOREIGN KEY (cpf_gerenete)
+REFERENCES funcionario (cpf)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE localizacoes_departamento ADD CONSTRAINT departamento_localizacoes_departamento
+FOREIGN KEY (numero_departamento)
+REFERENCES departamento (numero_departamento)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE projeto ADD CONSTRAINT departamento_projeto
+FOREIGN KEY (numero_departamento)
+REFERENCES departamento (numero_departamento)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE trabalha_em ADD CONSTRAINT projeto_trabalha_em
+FOREIGN KEY (numero_projeto)
+REFERENCES projeto (numero_projeto)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
