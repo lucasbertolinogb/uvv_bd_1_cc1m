@@ -5,11 +5,13 @@ Esta é uma atividade(pset1) dada pelo professor de banco de dados: Abrantes Ara
 
 Nela eu mostrarei como resolverei os códigos e problemas propostos.
 
+>*OBS:SE FOR COPIAR TUDO FAÇA ISSO NO ARQUIVO* foto elmasri-architect(código)
 >Foto da tabela elmasri traduzida (obs:ela é feita para o terminal mysql)
 CREATE DATABASE empresa;
 
 USE empresa;
 
+>Até aqui eu crei um banco de dados (create database) e comecei a usa-lo (use empresa)
 
 CREATE TABLE projeto (
                 nome_projeto/*Como ele e chamdo*/ VARCHAR(15) NOT NULL ,
@@ -19,10 +21,13 @@ CREATE TABLE projeto (
                 PRIMARY KEY (numero_projeto)
 );
 
+>Uma tabela (table) com as configurações e suas especificações
 
 CREATE UNIQUE INDEX projeto_idx
  ON projeto
  ( nome_projeto );
+ 
+ >Chave única em nome_projeto
 
 CREATE TABLE localizacoes_departamento (
                 numero_departamento/*Numero do departamento*/ INT NOT NULL,
@@ -30,6 +35,7 @@ CREATE TABLE localizacoes_departamento (
                 PRIMARY KEY (numero_departamento, local)
 );
 
+>Tabela de localização dos departamento é um bom banco de dados para se ter na mão quando não se sabe o local de trabalho
 
 CREATE TABLE funcionario (
                 primeiro_nome/*Nome formal*/ VARCHAR(15) NOT NULL,
@@ -45,6 +51,8 @@ CREATE TABLE funcionario (
                 PRIMARY KEY (cpf)
 );
 
+>Tabela com as informações gerais do funcionário 
+
 CREATE TABLE departamento (
                 nome_departamento/*nome do departamento*/ VARCHAR(15) NOT NULL,
                 numero_departamento/*numero do departamento*/ INT NOT NULL,
@@ -53,6 +61,7 @@ CREATE TABLE departamento (
                 PRIMARY KEY (numero_departamento)
 );
 
+>Tabela sobre os departamento
 
 CREATE UNIQUE INDEX departamento_idx
  ON departamento
