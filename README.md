@@ -456,5 +456,11 @@ Agora é sobre o PSET-2 e seus desafios , diferentemente da parte de cima eu vou
 
 >QUESTÃO 01: prepare um relatório que mostre a média salarial dos funcionários de cada departamento.
 
-SELECT AVG(salario)
-FROM funcionario
+SELECT numero_departamento AS "numero do departamento" ,AVG(salario) AS "média do salário"
+>Estou selecionado de numero departamento (que vai aparecer como numero do departamento usando a função AS) e fazer uma AVG(averege) ou media da tupla salário ( e usando o mesmo AS para chama-lo como média do salário).
+FROM funcionario ]
+>Agora é o uso do FROM que é usando a tabela funcionario que é onde eu retiro os meus dados do SELECT.
+GROUP BY numero_departamento;
+>E o *coringa* da minha seleção GROUP BY que vai juntar os salários dos funcionarios com o mesmo departamento e mostrar o relatório.
+
+
