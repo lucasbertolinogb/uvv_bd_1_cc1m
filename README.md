@@ -454,6 +454,7 @@ ON UPDATE NO ACTION
 
 Agora é sobre o PSET-2 e seus desafios , diferentemente da parte de cima eu vou colocar as questões e mostrar como eu resolvi elas e é claro os códigos estarão no arquivo pset-2
 
->QUESTÃO 01: prepare um relatório que mostre a média salarial dos funcionários
-de cada departamento.
+>QUESTÃO 01: prepare um relatório que mostre a média salarial dos funcionários de cada departamento.
 
+SELECT AVG(salario)
+FROM funcionario
