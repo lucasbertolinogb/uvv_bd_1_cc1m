@@ -7,7 +7,9 @@ Nela eu mostrarei como resolverei os códigos e problemas propostos.
 
 >*OBS: SE FOR COPIAR TUDO FAÇA ISSO NO ARQUIVO* foto elmasri-architect(código)
 >OBS2: NÂO tem dados INSERIDOS no POSTGRES
->Foto da tabela elmasri traduzida (obs:ela é feita para o terminal mysql)
+
+>Voltando ao trabalho ....Foto da tabela elmasri traduzida (obs:ela é feita para o terminal mysql)
+>
 CREATE DATABASE empresa;
 
 USE empresa;
