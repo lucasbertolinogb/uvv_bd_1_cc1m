@@ -9,4 +9,7 @@ GROUP BY numero_departamento;
 
 2)Questão
 
+SELECT sexo, AVG(salario) AS "média salarial" 
+FROM funcionario 
+GROUP BY sexo;
 
