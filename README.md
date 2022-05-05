@@ -454,7 +454,7 @@ ON UPDATE NO ACTION
 
 Agora é sobre o PSET-2 e seus desafios , diferentemente da parte de cima eu vou colocar as questões e mostrar como eu resolvi elas e é claro os códigos estarão no arquivo pset-2
 
->QUESTÃO 01: prepare um relatório que mostre a média salarial dos funcionários de cada departamento.
+´´QUESTÃO 01: prepare um relatório que mostre a média salarial dos funcionários de cada departamento.
 
 SELECT numero_departamento AS "numero do departamento" ,AVG(salario) AS "média do salário"
 >Estou selecionando de numero_departamento (que vai aparecer como numero do departamento usando a função AS) e fazer uma AVG(averege) ,ou media, da tupla salário ( e usando o mesmo AS para chama-lo de média do salário).
@@ -465,12 +465,12 @@ FROM funcionario
 GROUP BY numero_departamento;
 >GROUP BY é o *coringa* da minha seleção que vai juntar os salários dos funcionarios com o mesmo departamento e mostrar no relatório.
 
->QUESTÃO 02: prepare um relatório que mostre a média salarial dos homens e das mulheres.
+´´QUESTÃO 02: prepare um relatório que mostre a média salarial dos homens e das mulheres.
 
 SELECT sexo, AVG(salario) AS "média salarial" 
->Nesta parte é bem parecido com a 1º questão,logo substitui numero_departamento por sexo e continuei com salario e mudei ´´média do salário`` para ´´média salarial`` somente para ficar diferente, servindo somente como um cosmético.
+>Nesta parte é bem parecido com a 1º questão,logo substitui numero_departamento por sexo e continuei com salario e mudei média do salário para média salarial somente para ficar diferente, servindo somente como um cosmético.
 
 FROM funcionario 
 
 GROUP BY sexo;
->Neste GROUP BY eu deixei ela para juntar os que estão com o mesmo sexo , no caso da consulta ´´m`` e ´´f``.
+>Neste GROUP BY eu deixei ela para juntar os que estão com o mesmo sexo , no caso da consulta m e f.
