@@ -465,4 +465,12 @@ FROM funcionario
 GROUP BY numero_departamento;
 >GROUP BY é o *coringa* da minha seleção que vai juntar os salários dos funcionarios com o mesmo departamento e mostrar no relatório.
 
+>QUESTÃO 02: prepare um relatório que mostre a média salarial dos homens e das mulheres.
 
+SELECT sexo, AVG(salario) AS "média salarial" 
+>Nesta parte é bem parecido com a 1º questão,logo substitui numero_departamento por sexo e continuei com salario e mudei ´´média do salário`` para ´´média salarial`` somente para ficar diferente, servindo somente como um cosmético.
+
+FROM funcionario 
+
+GROUP BY sexo;
+>Neste GROUP BY eu deixei ela para juntar os que estão com o mesmo sexo , no caso da consulta ´´m`` e ´´f``.
