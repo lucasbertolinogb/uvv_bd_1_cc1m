@@ -474,3 +474,19 @@ FROM funcionario
 
 GROUP BY sexo;
 >Neste GROUP BY eu deixei ela para juntar os que estão com o mesmo sexo , no caso da consulta m e f.
+ 
+``QUESTÃO 03: prepare um relatório que liste o nome dos departamentos e, para cada departamento, inclua as seguintes informações de seus funcionários: o nome completo, a data de nascimento, a idade em anos completos e o salário.``
+
+SELECT f.numero_departamento , primeiro_nome, nome_meio, ultimo_nome ,data_nascimento , salario 
+FROM funcionario AS f 
+INNER JOIN departamento 
+ON f.numero_departamento = departamento.numero_departamento 
+ORDER BY ;
+
+SELECT f.numero_departamento , primeiro_nome, nome_meio, ultimo_nome ,data_nascimento , TIMESTAMPDIFF(YEAR , data_nascimento, CURRENT_DATE) AS "Ano" , salario 
+FROM funcionario AS f 
+INNER JOIN departamento 
+ON f.numero_departamento = departamento.numero_departamento 
+ORDER BY ;
+
+SELECT 
