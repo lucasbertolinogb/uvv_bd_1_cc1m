@@ -483,10 +483,10 @@ INNER JOIN departamento
 ON f.numero_departamento = departamento.numero_departamento 
 ORDER BY ;
 
-SELECT f.numero_departamento , primeiro_nome, nome_meio, ultimo_nome ,data_nascimento , TIMESTAMPDIFF(YEAR , data_nascimento, CURRENT_DATE) AS "Ano" , salario 
-FROM funcionario AS f 
-INNER JOIN departamento 
-ON f.numero_departamento = departamento.numero_departamento 
-ORDER BY ;
+  SELECT f.numero_departamento , primeiro_nome, nome_meio, ultimo_nome , TIMESTAMPDIFF(YEAR , data_nascimento, CURRENT_DATE) AS "Ano"  , salario 
+  FROM funcionario AS f 
+  INNER JOIN departamento 
+  ON f.numero_departamento = departamento.numero_departamento ;
 
-SELECT 
+SELECT TIMESTAMPDIFF(YEAR , data_nascimento, CURRENT_DATE) AS "Ano"
+FROM funcionario;
