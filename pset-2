@@ -20,3 +20,12 @@ SELECT dep.nome_departamento , CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultim
 FROM funcionario AS f , departamento AS dep 
 ORDER BY dep.nome_departamento ;
 
+4)Questão
+
+ SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano", salario ,(salario + salario * 0.2) AS "salario com reajuste" 
+ FROM funcionario 
+ WHERE salario < 35.000 
+ UNION 
+ SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano", salario ,(salario + salario * 0.15) AS "salario com reajuste" 
+ FROM funcionario 
+ WHERE salario > 35.000 ; 
