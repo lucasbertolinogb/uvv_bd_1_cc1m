@@ -477,16 +477,8 @@ GROUP BY sexo;
  
 ``QUESTÃO 03: prepare um relatório que liste o nome dos departamentos e, para cada departamento, inclua as seguintes informações de seus funcionários: o nome completo, a data de nascimento, a idade em anos completos e o salário.``
 
-SELECT f.numero_departamento , primeiro_nome, nome_meio, ultimo_nome ,data_nascimento , salario 
-FROM funcionario AS f 
-INNER JOIN departamento 
-ON f.numero_departamento = departamento.numero_departamento 
-ORDER BY ;
+SELECT dep.nome_departamento , primeiro_nome, nome_meio, ultimo_nome ,data_nascimento , salario 
+FROM funcionario AS f , departamento AS dep 
+ORDER BY dep.nome_departamento ;
 
-  SELECT f.numero_departamento , primeiro_nome, nome_meio, ultimo_nome , TIMESTAMPDIFF(YEAR , data_nascimento, CURRENT_DATE) AS "Ano"  , salario 
-  FROM funcionario AS f 
-  INNER JOIN departamento 
-  ON f.numero_departamento = departamento.numero_departamento ;
 
-SELECT TIMESTAMPDIFF(YEAR , data_nascimento, CURRENT_DATE) AS "Ano"
-FROM funcionario;
