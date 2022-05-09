@@ -22,10 +22,18 @@ ORDER BY dep.nome_departamento ;
 
 4)Questão
 
- SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano", salario ,(salario + salario * 0.2) AS "salario com reajuste" 
+ SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Idade", salario ,(salario + salario * 0.2) AS "salario com reajuste" 
  FROM funcionario 
  WHERE salario < 35.000 
  UNION 
- SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano", salario ,(salario + salario * 0.15) AS "salario com reajuste" 
+ SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Idade", salario ,(salario + salario * 0.15) AS "salario com reajuste" 
  FROM funcionario 
  WHERE salario > 35.000 ; 
+ 
+ 5) Questão
+ 
+ SELECT dep.nome_departamento AS "nome do departamento" , s.primeiro_nome AS supervisor ,f.primeiro_nome AS funcionario 
+FROM funcionario AS f , funcionario AS s , departamento as dep 
+WHERE f.cpf_supervisor = s.cpf AND s.numero_departamento = dep.numero_departamento 
+ORDER BY dep.nome_departamento ASC , s.salario DESC , f.salario DESC ;
+
