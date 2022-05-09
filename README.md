@@ -478,10 +478,17 @@ GROUP BY sexo;
 ``QUESTÃO 03: prepare um relatório que liste o nome dos departamentos e, para cada departamento, inclua as seguintes informações de seus funcionários: o nome completo, a data de nascimento, a idade em anos completos e o salário.``
 
 SELECT dep.nome_departamento , CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" ,data_nascimento , 
->/*OBS:Essa parte vai ser meio complicado de explicar então talvez tenha algo que eu falarei "abobrinhas"*/
+>*OBS:Essa parte vai ser meio complicado de explicar então talvez tenha algo que eu falarei "abobrinhas"*
+>Nessa seleção de tem algo novo o dep.alguma_coisa , esse dep esta referente ao AS na parte FROM para diminuir o nome escrito , mas porque eu iria usar isso ao inves de so escrever o nome da tabela? Simples, já que eu tenho mais de uma tabela e nela por coincidência tem duas tabelas com o mesmo nome , o sistema não saberia qual tabela eu pegaria a informação resultando em uma ambiguidade. 
+>O CONCAT é o que podemos dizer ser um tipo de juntador de caracterer ,ou seja, eu estou pegando as tabelas de nomes e juntado elas e uma única tabela "Nome_completo".
 
-       TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano" , salario 
+TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano" , salario 
+>Esse "TIMESTAMDIFF", não é dilf e sim diff com dois "ff" , tem quase a mesma função que o CONCAT , entretanto serve somente para calcular data.
+
 FROM funcionario AS f , departamento AS dep 
+>Agora temos duas tabelas sendo usadas , e como expliquei em cima é aconselhável o uso de "<nome_da_tabela>.coluna"
+
 ORDER BY dep.nome_departamento ;
+>Eu usei esse ORDER BY , pois estava muito embolado.
 
 
