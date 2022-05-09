@@ -491,4 +491,16 @@ FROM funcionario AS f , departamento AS dep
 ORDER BY dep.nome_departamento ;
 >Eu usei esse ORDER BY , pois estava muito embolado.
 
+``QUESTÃO 04: prepare um relatório que mostre o nome completo dos funcionários, a idade em anos completos, o salário atual e o salário com um reajuste que obedece ao seguinte critério: se o salário atual do funcionário é inferior a 35.000 o reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou superior a
+35.000 o reajuste deve ser de 15%. ``
 
+ SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano", salario ,(salario + salario * 0.2) AS "salario com reajuste" 
+ FROM funcionario 
+ WHERE salario < 35.000 
+ UNION 
+ SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano", salario ,(salario + salario * 0.15) AS "salario com reajuste" 
+ FROM funcionario 
+ WHERE salario > 35.000 ; 
+ 
+ 
+ 
