@@ -477,7 +477,10 @@ GROUP BY sexo;
  
 ``QUESTÃO 03: prepare um relatório que liste o nome dos departamentos e, para cada departamento, inclua as seguintes informações de seus funcionários: o nome completo, a data de nascimento, a idade em anos completos e o salário.``
 
-SELECT dep.nome_departamento , primeiro_nome, nome_meio, ultimo_nome ,data_nascimento , salario 
+SELECT dep.nome_departamento , CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" ,data_nascimento , 
+>/*OBS:Essa parte vai ser meio complicado de explicar então talvez tenha algo que eu falarei "abobrinhas"*/
+
+       TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano" , salario 
 FROM funcionario AS f , departamento AS dep 
 ORDER BY dep.nome_departamento ;
 
