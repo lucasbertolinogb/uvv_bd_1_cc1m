@@ -494,7 +494,7 @@ ORDER BY dep.nome_departamento ;
 ``QUESTÃO 04: prepare um relatório que mostre o nome completo dos funcionários, a idade em anos completos, o salário atual e o salário com um reajuste que obedece ao seguinte critério: se o salário atual do funcionário é inferior a 35.000 o reajuste deve ser de 20%, e se o salário atual do funcionário for igual ou superior a
 35.000 o reajuste deve ser de 15%. ``
 
- SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano", salario ,(salario + salario * 0.2) AS "salario com reajuste" 
+ SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Idade", salario ,(salario + salario * 0.2) AS "salario com reajuste" 
  >Usei o mesmo select para calcular data e trazer o nome completo 
  
  FROM funcionario 
@@ -502,10 +502,25 @@ ORDER BY dep.nome_departamento ;
  UNION 
  >Agora o "pulo do gato" usei a union com o mesmo select até funcionario (ctrl C + ctrl V)
  
- SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano", salario ,(salario + salario * 0.15) AS "salario com reajuste" 
+ SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Idade", salario ,(salario + salario * 0.15) AS "salario com reajuste" 
  FROM funcionario 
  WHERE salario > 35.000 ; 
  >E nessa parte que é diferente de cima que é o > e < no valor 35.000 que faz com que somente os valores sejam alterados em 20% ou 15%
  
- 
- 
+ ``QUESTÃO 05: prepare um relatório que liste, para cada departamento, o nome do gerente e o nome dos funcionários. Ordene esse relatório por nome do departamento (em ordem crescente) e por salário dos funcionários (em ordem decrescente).``
+ >*OBS:Essa por incrível que pareça foi a que eu fiz mais rápida deu no máximo 30 minutos*
+
+SELECT dep.nome_departamento AS "nome do departamento" , s.primeiro_nome AS supervisor ,f.primeiro_nome AS funcionario 
+>Usei uma seleção nome_departamento da tabela departamento ( o AS foi para deixar mais apresentável) , chamei a mesma tabela duas vezes
+
+FROM funcionario AS f , funcionario AS s , departamento as dep 
+>Agora vem a sacada : usei duas vezes a mesma tabela , porém para não dar um erro eu usei AS para diferencia-las e é claro tive que colocar a nomenclatura para diferencia.
+
+WHERE f.cpf_supervisor = s.cpf AND s.numero_departamento = dep.numero_departamento 
+>É nesta parte onde o uso de duas tabelas entra , para eu não deixar o cpf_supervisor e ter seu nome eu preciso iqualar ela com funcionario 
+>*lembrar para achar um jeito de explicar essa parte
+
+ORDER BY dep.nome_departamento ASC , s.salario DESC , f.salario DESC ;
+>Finalizando com order by com asc (ascedente) que no caso é de a -> Z e desc (descender) para o salario maior -> menor.
+
+
