@@ -13,3 +13,10 @@ SELECT sexo, AVG(salario) AS "média salarial"
 FROM funcionario 
 GROUP BY sexo;
 
+3)Questão 
+
+SELECT dep.nome_departamento , CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" ,data_nascimento , 
+       TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano" , salario 
+FROM funcionario AS f , departamento AS dep 
+ORDER BY dep.nome_departamento ;
+
