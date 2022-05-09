@@ -495,12 +495,17 @@ ORDER BY dep.nome_departamento ;
 35.000 o reajuste deve ser de 15%. ``
 
  SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano", salario ,(salario + salario * 0.2) AS "salario com reajuste" 
+ >Usei o mesmo select para calcular data e trazer o nome completo 
+ 
  FROM funcionario 
  WHERE salario < 35.000 
  UNION 
+ >Agora o "pulo do gato" usei a union com o mesmo select até funcionario (ctrl C + ctrl V)
+ 
  SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano", salario ,(salario + salario * 0.15) AS "salario com reajuste" 
  FROM funcionario 
  WHERE salario > 35.000 ; 
+ >E nessa parte que é diferente de cima que é o > e < no valor 35.000 que faz com que somente os valores sejam alterados em 20% ou 15%
  
  
  
