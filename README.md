@@ -533,7 +533,7 @@ FROM funcionario AS f , dependente AS d , departamento AS dep , trabalha_em as t
 WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'f' 
 )
 UNION 
->O coringa que eu usei sabendo que não iria dar para usar o replace em duas palavras foram : d.sexo = 'f'f o que me faz retornar somente dentro da tabela em sexo a palavra f e a outra sacada foi UNION para pegar o resto da seleção 
+>O coringa que eu usei sabendo que não iria dar para usar o replace em duas palavras foram : d.sexo = 'f' no WHERE o que me faz retornar somente dentro de <>sexo a palavra f e a outra sacada foi UNION para pegar o resto da seleção 
 
 (SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'M', 'masculino ')sexo 
 FROM funcionario AS f , dependente AS d , departamento AS dep , trabalha_em as trab 
@@ -541,5 +541,22 @@ WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'm
 )
 ORDER BY Nome_completo;
 >Por fim , foi ordenado em Nome_completo para deixar visualmente mais bonito e fácil de ver
+
+``QUESTÃO 07: prepare um relatório que mostre, para cada funcionário que NÃO TEM dependente, seu nome completo, departamento e salário.``
+
+SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , f.numero_departamento , salario 
+>Usei o cansado nome_completo e chamei as colunas numero_departamento e salario
+
+FROM funcionario AS f 
+>Vem da tabela funcionario que eu apelidei de f 
+
+INNER JOIN departamento AS dep ON f.numero_departamento = dep.numero_departamento 
+>INNER JOIN ou junção de tabela , ou seja, ele tem a função de A+B e usando ON eu posso especificar onde eu junto funcionario e departamento em numero_departamento
+
+LEFT JOIN dependente AS d ON f.cpf = d.cpf_funcionario 
+>LEFT JOIN tem quase a mesma função de INNER JOIN que seria de fazer todas as combinações possiveis com a esquerda o que poderia retornar null
+
+WHERE d.nome_dependente IS NULL;
+>Já essa parte é onde eu retiro o desnecessário valor null da LEFT JOIN 
 
 
