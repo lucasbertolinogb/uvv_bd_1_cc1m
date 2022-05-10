@@ -51,3 +51,14 @@ WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'm
 )
 ORDER BY Nome_completo;
 
+7)Questão
+
+SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , f.numero_departamento , salario 
+FROM funcionario AS f 
+INNER JOIN departamento AS dep ON f.numero_departamento = dep.numero_departamento 
+LEFT JOIN dependente AS d ON f.cpf = d.cpf_funcionario 
+WHERE d.nome_dependente IS NULL;
+
+
+
+
