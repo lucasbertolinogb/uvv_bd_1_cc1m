@@ -59,6 +59,12 @@ INNER JOIN departamento AS dep ON f.numero_departamento = dep.numero_departament
 LEFT JOIN dependente AS d ON f.cpf = d.cpf_funcionario 
 WHERE d.nome_dependente IS NULL;
 
+8)Questão
+
+SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto , t.horas 
+FROM departamento AS d , funcionario AS f, trabalha_em AS t , projeto AS p 
+WHERE d.numero_departamento = f.numero_departamento AND f.cpf = t.cpf_funcionario AND t.numero_projeto = p.numero_projeto 
+ORDER BY d.nome_departamento, Nome_completo, p.nome_projeto; 
 
 
 
