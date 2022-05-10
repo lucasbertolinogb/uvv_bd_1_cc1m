@@ -559,4 +559,18 @@ LEFT JOIN dependente AS d ON f.cpf = d.cpf_funcionario
 WHERE d.nome_dependente IS NULL;
 >Já essa parte é onde eu retiro o desnecessário valor null da LEFT JOIN 
 
+``QUESTÃO 08: prepare um relatório que mostre, para cada departamento, os projetos desse departamento e o nome completo dos funcionários que estão alocados em cada projeto. Além disso inclua o número de horas trabalhadas por cada funcionário, em cada projeto``
+
+SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento AS "Nome do Departamento" , p.nome_projeto AS "Nome do Projeto" , t.horas 
+>Usei o bom nome_completo (eu já usei antes então não irei explicar , se quiser minha explicação vá ler a 4º questão), chamei nome_departamento em departamento, nome_projeto em projeto e horas em trabalha_em e usei o AS como função de estética.
+
+
+FROM departamento AS d , funcionario AS f, trabalha_em AS t , projeto AS p 
+>Agora o AS realmente mostra seu valor e deixar de seu um produto estético e passar a ser um otimizador na linguagem SQL fazendo seu código ser mais rápido de ser lido
+
+WHERE d.numero_departamento = f.numero_departamento AND f.cpf = t.cpf_funcionario AND t.numero_projeto = p.numero_projeto 
+>.O numero_departamento sendo iqualados nas tabelas departamento e funcionario faz com que a seleção sai de 2304 rolls (pode ser traduzida em lista) para 768 rolls (é muito bom para prática manual vulgo trabalho braçal) ,ou seja , ele só seleciona partes em que as duas tabelas tem a o mesmo numero_departamento , seguindo essa lógica em cpf (768 -> 128) e numero_projeto (128 -> 16) temos a relação que a questão pede.
+
+ORDER BY d.nome_departamento, Nome_completo, p.nome_projeto; 
+>E finalmente  uma organização para deixar mais coerente , onde nome_departamento
 
