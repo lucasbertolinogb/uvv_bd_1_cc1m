@@ -523,4 +523,28 @@ WHERE f.cpf_supervisor = s.cpf AND s.numero_departamento = dep.numero_departamen
 ORDER BY dep.nome_departamento ASC , s.salario DESC , f.salario DESC ;
 >Finalizando com order by com asc (ascedente) que no caso é de a -> Z e desc (descender) para o salario maior -> menor.
 
+``QUESTÃO 06: prepare um relatório que mostre o nome completo dos funcionários que têm dependentes, o departamento onde eles trabalham e, para cada funcionário, também liste o nome completo dos dependentes, a idade em anos de cada dependente e o sexo (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou  “Feminino”).``
+
+SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", dep.nome_departamento , d.nome_dependente, TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", d.sexo 
+FROM funcionario AS f , dependente AS d , departamento AS dep 
+WHERE f.cpf = d.cpf_funcionario AND f.cpf=
+
+
+SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'F', 'femenino ')sexo 
+FROM funcionario AS f , dependente AS d , departamento AS dep , trabalha_em as trab 
+WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario
+UNION 
+SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", d.nome_dependente, TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'M', 'masculino') sexo 
+FROM funcionario AS f , dependente AS d , departamento AS dep 
+WHERE f.cpf = d.cpf_funcionario;
+
+
+
+
+
+
+SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", dep.nome_departamento, d.nome_dependente, TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", d.sexo 
+IF (sexo LIKE 'f' , 'femenino' , 'masculino') AS sexo_dependente 
+FROM funcionario AS f , dependente AS d , departamento AS dep 
+WHERE f.cpf = d.cpf_funcionario ;
 
