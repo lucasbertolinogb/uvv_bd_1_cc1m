@@ -514,37 +514,32 @@ SELECT dep.nome_departamento AS "nome do departamento" , s.primeiro_nome AS supe
 >Usei uma seleção nome_departamento da tabela departamento ( o AS foi para deixar mais apresentável) , chamei a mesma tabela duas vezes
 
 FROM funcionario AS f , funcionario AS s , departamento as dep 
->Agora vem a sacada : usei duas vezes a mesma tabela , porém para não dar um erro eu usei AS para diferencia-las e é claro tive que colocar a nomenclatura para diferencia.
+>Agora vem a sacada : usei duas vezes a mesma tabela e para não dar um erro eu usei AS para diferencia-las e é claro tive que colocar a nomenclatura para diferencia.
 
 WHERE f.cpf_supervisor = s.cpf AND s.numero_departamento = dep.numero_departamento 
->É nesta parte onde o uso de duas tabelas entra , para eu não deixar o cpf_supervisor e ter seu nome eu preciso iqualar ela com funcionario 
+>É nesta parte onde o uso de duas tabelas entra , para eu não deixar o cpf_supervisor multiplicar a tabela eu faço dela iqual a funcionario , logo ela vai retornar apenas uma vez
 >*lembrar para achar um jeito de explicar essa parte
 
 ORDER BY dep.nome_departamento ASC , s.salario DESC , f.salario DESC ;
 >Finalizando com order by com asc (ascedente) que no caso é de a -> Z e desc (descender) para o salario maior -> menor.
 
 ``QUESTÃO 06: prepare um relatório que mostre o nome completo dos funcionários que têm dependentes, o departamento onde eles trabalham e, para cada funcionário, também liste o nome completo dos dependentes, a idade em anos de cada dependente e o sexo (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou  “Feminino”).``
+>*OBS: não tem o departamento na tabela , pois não consigui achar um jeito de inserir (talvez mais tarde encontro um jeito)*
 
-SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", dep.nome_departamento , d.nome_dependente, TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", d.sexo 
-FROM funcionario AS f , dependente AS d , departamento AS dep 
-WHERE f.cpf = d.cpf_funcionario AND f.cpf=
+(SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'F', 'femenino ')sexo 
+>Nesta parte eu selecionei com DISTINC , pois não aguentava dar triplicidade de valores , usei o mesmo CONCAT e TIMESTAMPDIFF das questôes anteriores, usei o REPLACE que tem a função de substituir APENAS uma palavra por outra.
 
-
-SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'F', 'femenino ')sexo 
 FROM funcionario AS f , dependente AS d , departamento AS dep , trabalha_em as trab 
-WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario
+WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'f' 
+)
 UNION 
-SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", d.nome_dependente, TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'M', 'masculino') sexo 
-FROM funcionario AS f , dependente AS d , departamento AS dep 
-WHERE f.cpf = d.cpf_funcionario;
+>O coringa que eu usei sabendo que não iria dar para usar o replace em duas palavras foram : d.sexo = 'f'f o que me faz retornar somente dentro da tabela em sexo a palavra f e a outra sacada foi UNION para pegar o resto da seleção 
 
+(SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'M', 'masculino ')sexo 
+FROM funcionario AS f , dependente AS d , departamento AS dep , trabalha_em as trab 
+WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'm' 
+)
+ORDER BY Nome_completo;
+>Por fim , foi ordenado em Nome_completo para deixar visualmente mais bonito e fácil de ver
 
-
-
-
-
-SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", dep.nome_departamento, d.nome_dependente, TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", d.sexo 
-IF (sexo LIKE 'f' , 'femenino' , 'masculino') AS sexo_dependente 
-FROM funcionario AS f , dependente AS d , departamento AS dep 
-WHERE f.cpf = d.cpf_funcionario ;
 
