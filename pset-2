@@ -78,9 +78,24 @@ GROUP BY nome_departamento ;
 
 11)Questão
 
-SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", p.nome_projeto , (horas * 50) AS "Valor do trabalho" , horas 
+SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", p.nome_projeto , (horas * 50) AS "Valor do trabalho" 
 FROM funcionario AS f , trabalha_em AS t , projeto AS p 
 WHERE f.cpf = t.cpf_funcionario AND p.numero_projeto = t.numero_projeto ;
 
+12)Questão
+
+SELECT DISTINCT d.nome_departamento AS "Nome do Departamento" , p.nome_projeto AS "Nome do Projeto" , CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , horas
+FROM departamento AS d , projeto AS p , funcionario AS f , trabalha_em AS t 
+WHERE t.horas = 0 AND p.numero_projeto = t.numero_projeto AND d.numero_departamento = f.numero_departamento AND f.cpf = t.cpf_funcionario ;
+
+13)Questão
+
+
+14)Questão 
+
+SELECT nome_departamento AS "Nome do Departamento" ,COUNT(cpf) as "Numero de funcionario" 
+FROM funcionario AS f , departamento AS dep 
+WHERE f.numero_departamento = dep.numero_departamento 
+GROUP BY nome_departamento;
 
 
