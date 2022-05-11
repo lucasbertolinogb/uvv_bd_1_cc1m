@@ -638,11 +638,18 @@ WHERE t.horas = 0 AND p.numero_projeto = t.numero_projeto AND d.numero_departame
 (SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , sexo , TIMESTAMPDIFF (YEAR , data_nascimento, CURRENT_DATE) AS "Idade" 
 FROM funcionario
 )
+>Peguei o Nome_completo, sexo e Idade de funcionario
+
 UNION 
+>Para desvender a charada da questão usei UNION que tem como função juntar duas consultas iquais (A/B)-um em cima do outro.
+
 (SELECT nome_dependente AS "Nome_completo",  sexo , TIMESTAMPDIFF (YEAR , data_nascimento, CURRENT_DATE) AS "Idade"
 FROM dependente 
 )
+>Para terminar de vez é necessário iqualar nome_dependete como Nome_completo para ter as duas juntas.
+
 ORDER BY Idade DESC;
+>E finalizar como pede a questão usando ORDER BY para deixar a ordem em Idade decrescente.
 
 
 ``QUESTÃO 14: prepare um relatório que exiba quantos funcionários cada departamento tem.``
