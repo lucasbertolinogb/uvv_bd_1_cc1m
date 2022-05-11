@@ -71,7 +71,7 @@ ORDER BY d.nome_departamento, Nome_completo, p.nome_projeto;
 
 
 10)Questão
-SELECT nome_departamento, AVG(salario) 
+SELECT nome_departamento AS "Nome do Departamento" , AVG(salario) AS "Média Salarial" 
 FROM funcionario as f , departamento as dep 
 GROUP BY nome_departamento ;
 
