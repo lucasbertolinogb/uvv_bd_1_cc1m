@@ -90,6 +90,15 @@ WHERE t.horas = 0 AND p.numero_projeto = t.numero_projeto AND d.numero_departame
 
 13)Questão
 
+(SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , sexo , TIMESTAMPDIFF (YEAR , data_nascimento, CURRENT_DATE) AS "Idade" 
+FROM funcionario
+)
+UNION 
+(SELECT nome_dependente AS "Nome_completo",  sexo , TIMESTAMPDIFF (YEAR , data_nascimento, CURRENT_DATE) AS "Idade"
+FROM dependente 
+)
+ORDER BY Idade DESC;
+
 
 14)Questão 
 
