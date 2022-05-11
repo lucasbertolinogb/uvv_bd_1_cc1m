@@ -624,15 +624,45 @@ WHERE f.cpf = t.cpf_funcionario AND p.numero_projeto = t.numero_projeto ;
 
 ``QUESTÃO 12: seu chefe está verificando as horas trabalhadas pelos funcionários nos projetos e percebeu que alguns funcionários, mesmo estando alocadas à algum projeto, não registraram nenhuma hora trabalhada. Sua tarefa é preparar um relatório que liste o nome do departamento, o nome do projeto e o nome dos funcionários que, mesmo estando alocados a algum projeto, não registraram nenhuma hora trabalhada.``
   
-  SELECT DISTINCT d.nome_departamento AS "Nome do Departamento" , p.nome_projeto AS "Nome do Projeto" , CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , horas 
- >Usei SELECT DISTINCT para não ter valores duplicados, o resto você já sabe (se não , olhe a questão 1 sobre o uso do AS nesse select) 
+SELECT DISTINCT d.nome_departamento AS "Nome do Departamento" , p.nome_projeto AS "Nome do Projeto" , CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , horas
+>Usei SELECT DISTINCT para não ter valores duplicados, o resto você já sabe (se não , olhe a questão 1 sobre o uso do AS nesse select) 
  
-  FROM departamento AS d , projeto AS p , funcionario AS f , trabalha_em AS t 
-  >Chamei 4 tabelas ,e já que usei mais de 3 tabelas, é uma ideia viável para não se perder em anbiguidade (simplificando, é quando tem duas tabelas que possuem colunas iquais e causaria uma dúvida no sistema) usando AS <apelido>
+FROM departamento AS d , projeto AS p , funcionario AS f , trabalha_em AS t 
+>Chamei 4 tabelas ,e já que usei mais de 3 tabelas, é uma ideia viável para não se perder em anbiguidade (simplificando, é quando tem duas tabelas que possuem colunas iquais e causaria uma dúvida no sistema) usando AS apelido.
   
- WHERE t.horas = 0 AND p.numero_projeto = t.numero_projeto AND d.numero_departamento = f.numero_departamento AND f.cpf = t.cpf_funcionario ;
+WHERE t.horas = 0 AND p.numero_projeto = t.numero_projeto AND d.numero_departamento = f.numero_departamento AND f.cpf = t.cpf_funcionario ;
 >Finalmente um monte de iqualdade ,para não ter 2304 rolls , onde a principal iqualdade esta em t.horas = 0 para receber somente funcionario qua com 0 horas.
 
-``QUESTÃO 13: durante o natal deste ano a empresa irá presentear todos os funcionários e todos os dependentes (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o sexo e a idade em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente.``
+``QUESTÃO 13:durante o natal deste ano a empresa irá presentear todos os funcionários e todos os dependentes (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o sexo e a idade em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente.``
+
+SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , nome_dependente AS "Nome_completo" , sexo , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade" 
+FROM funcionario, dependente  
+UNION
+
+
+
+ORDER BY Idade DESC , 
+
+``QUESTÃO 14: prepare um relatório que exiba quantos funcionários cada departamento tem.``
+
+SELECT nome_departamento AS "Nome do Departamento" ,COUNT(*) as "Numero de funcionario" 
+>Troxe para o select nome_departamento como Nome do Departamento e COUNT (contar) * (poderia ser qualquer nome de coluna de funcionario) como Numero de funcionario.
+
+FROM funcionario AS f , departamento AS dep 
+>Chamei funcionario e departamento.
+
+WHERE f.numero_departamento = dep.numero_departamento 
+>É nesta parte onde a solução começa , onde só pode ser chamado no relatório onde o numero_departamento se repete , o que não me causa a maldita multiplicação , e me retornar um funcionario.
+
+GROUP BY nome_departamento;
+>E para acabar de vez na questão é preciso do GROUP BY para juntar somente com o mesmo nome_departamento e não uma COUNT com 8 funcionarios.
+
+``QUESTÃO 15: como um funcionário pode estar alocado em mais de um projeto, prepare um relatório que exiba o nome completo do funcionário, o departamento desse funcionário e o nome dos projetos em que cada funcionário está alocado. Atenção: se houver algum funcionário que não está alocado em nenhum projeto, o nome completo e o departamento também devem aparecer no relatório.``
+
+
+
+
+
+
 
 
