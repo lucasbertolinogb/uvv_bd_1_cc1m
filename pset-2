@@ -67,5 +67,11 @@ FROM departamento AS d , funcionario AS f, trabalha_em AS t , projeto AS p
 WHERE d.numero_departamento = f.numero_departamento AND f.cpf = t.cpf_funcionario AND t.numero_projeto = p.numero_projeto 
 ORDER BY d.nome_departamento, Nome_completo, p.nome_projeto; 
 
+9)Questão
 
+
+10)Questão
+SELECT nome_departamento, AVG(salario) 
+FROM funcionario as f , departamento as dep 
+GROUP BY nome_departamento ;
 
