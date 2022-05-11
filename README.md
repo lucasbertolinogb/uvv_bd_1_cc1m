@@ -635,13 +635,15 @@ WHERE t.horas = 0 AND p.numero_projeto = t.numero_projeto AND d.numero_departame
 
 ``QUESTÃO 13:durante o natal deste ano a empresa irá presentear todos os funcionários e todos os dependentes (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o sexo e a idade em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente.``
 
-SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , nome_dependente AS "Nome_completo" , sexo , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade" 
-FROM funcionario, dependente  
-UNION
+(SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , sexo , TIMESTAMPDIFF (YEAR , data_nascimento, CURRENT_DATE) AS "Idade" 
+FROM funcionario
+)
+UNION 
+(SELECT nome_dependente AS "Nome_completo",  sexo , TIMESTAMPDIFF (YEAR , data_nascimento, CURRENT_DATE) AS "Idade"
+FROM dependente 
+)
+ORDER BY Idade DESC;
 
-
-
-ORDER BY Idade DESC , 
 
 ``QUESTÃO 14: prepare um relatório que exiba quantos funcionários cada departamento tem.``
 
