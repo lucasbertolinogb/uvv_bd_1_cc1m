@@ -93,7 +93,7 @@ WHERE t.horas = 0 AND p.numero_projeto = t.numero_projeto AND d.numero_departame
 
 14)Questão 
 
-SELECT nome_departamento AS "Nome do Departamento" ,COUNT(cpf) as "Numero de funcionario" 
+SELECT nome_departamento AS "Nome do Departamento" ,COUNT(*) as "Numero de funcionario" 
 FROM funcionario AS f , departamento AS dep 
 WHERE f.numero_departamento = dep.numero_departamento 
 GROUP BY nome_departamento;
