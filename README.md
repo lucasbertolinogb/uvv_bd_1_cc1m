@@ -521,7 +521,7 @@ WHERE f.cpf_supervisor = s.cpf AND s.numero_departamento = dep.numero_departamen
 >*lembrar para achar um jeito de explicar essa parte
 
 ORDER BY dep.nome_departamento ASC , s.salario DESC , f.salario DESC ;
->Finalizando com order by com asc (ascedente) que no caso é de a -> Z e desc (descender) para o salario maior -> menor.
+>Finalizando com order by com asc (ascedente) que no caso é de A -> Z e desc (descender) para o salario MAIOR -> menor.
 
 ``QUESTÃO 06: prepare um relatório que mostre o nome completo dos funcionários que têm dependentes, o departamento onde eles trabalham e, para cada funcionário, também liste o nome completo dos dependentes, a idade em anos de cada dependente e o sexo (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou  “Feminino”).``
 >*OBS: não tem o departamento na tabela , pois não consigui achar um jeito de inserir (talvez mais tarde encontro um jeito)*
@@ -573,4 +573,39 @@ WHERE d.numero_departamento = f.numero_departamento AND f.cpf = t.cpf_funcionari
 
 ORDER BY d.nome_departamento, Nome_completo, p.nome_projeto; 
 >E finalmente  uma organização para deixar mais coerente , onde nome_departamento
+
+``QUESTÃO 09: prepare um relatório que mostre a soma total das horas de cada projeto em cada departamento. Obs.: o relatório deve exibir o nome do departamento, o nome do projeto e a soma total das horas.``
+
+
+SELECT DISTINCT dep.nome_departamento, p.nome_projeto, SUM(horas) 
+FROM departamento AS dep , projeto AS p, trabalha_em AS t 
+WHERE t.numero_projeto = p.numero_projeto AND dep.numero_departamento = p.numero_departamento 
+
+
+
+
+
+
+
+
+SELECT DISTINCT dep.nome_departamento, p.nome_projeto, SUM(horas) 
+FROM departamento AS dep , projeto AS p, trabalha_em AS t 
+WHERE t.numero_projeto = p.numero_projeto AND dep.numero_departamento = p.numero_departamento AND nome_departamento = 'Administração' 
+UNION 
+SELECT DISTINCT dep.nome_departamento, p.nome_projeto, SUM(horas) 
+FROM departamento AS dep , projeto AS p, trabalha_em AS t 
+WHERE t.numero_projeto = p.numero_projeto AND dep.numero_departamento = p.numero_departamento AND nome_departamento = 'Matriz' 
+UNION 
+SELECT DISTINCT dep.nome_departamento, p.nome_projeto, SUM(horas) 
+FROM departamento AS dep , projeto AS p, trabalha_em AS t 
+WHERE t.numero_projeto = p.numero_projeto AND dep.numero_departamento = p.numero_departamento AND nome_departamento = 'Pesquisa'
+
+;
+
+
+``QUESTÃO 10: prepare um relatório que mostre a média salarial dos funcionários de cada departamento.``
+
+
+
+
 
