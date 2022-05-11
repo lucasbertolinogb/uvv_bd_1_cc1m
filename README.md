@@ -453,6 +453,7 @@ ON UPDATE NO ACTION
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Agora é sobre o PSET-2 e seus desafios , diferentemente da parte de cima eu vou colocar as questões e mostrar como eu resolvi elas e é claro os códigos estarão no arquivo pset-2
+OBS: Esses são códigos para *Mysql* 
 
 ``QUESTÃO 01: prepare um relatório que mostre a média salarial dos funcionários de cada departamento.``
 
@@ -526,21 +527,53 @@ ORDER BY dep.nome_departamento ASC , s.salario DESC , f.salario DESC ;
 ``QUESTÃO 06: prepare um relatório que mostre o nome completo dos funcionários que têm dependentes, o departamento onde eles trabalham e, para cada funcionário, também liste o nome completo dos dependentes, a idade em anos de cada dependente e o sexo (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou  “Feminino”).``
 >*OBS: não tem o departamento na tabela , pois não consigui achar um jeito de inserir (talvez mais tarde encontro um jeito)*
 
-(SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'F', 'femenino ')sexo 
->Nesta parte eu selecionei com DISTINC , pois não aguentava dar triplicidade de valores , usei o mesmo CONCAT e TIMESTAMPDIFF das questôes anteriores, usei o REPLACE que tem a função de substituir APENAS uma palavra por outra.
+(SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", dep.nome_departamento , d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'F', 'femenino ')sexo 
+>Nesta parte eu selecionei com DISTINC , pois não aguentava dar triplicidade de valores , usei o mesmo CONCAT e TIMESTAMPDIFF das questôes anteriores, usei o REPLACE que tem a função de substituir APENAS uma palavra por outra, além do nome_departamento que TEM que vir com <dep.> para não ter anbiguidade entre as tabelas (que me aborreceu muito nesta questão)
 
 FROM funcionario AS f , dependente AS d , departamento AS dep , trabalha_em as trab 
-WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'f' 
-)
+WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'f' AND f.numero_departamento = dep.numero_departamento 
+) 
 UNION 
->O coringa que eu usei sabendo que não iria dar para usar o replace em duas palavras foram : d.sexo = 'f' no WHERE o que me faz retornar somente dentro de <>sexo a palavra f e a outra sacada foi UNION para pegar o resto da seleção 
+>O coringa que eu usei sabendo que não iria dar para usar o replace em duas palavras foram : d.sexo = 'f' no WHERE o que me faz retornar somente dentro de <>(quer dizer "diferente" em sql) sexo a palavra f e a outra sacada foi UNION para pegar o resto da seleção .
 
-(SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'M', 'masculino ')sexo 
+((SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", dep.nome_departamento , d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'M', 'masculino ')sexo 
 FROM funcionario AS f , dependente AS d , departamento AS dep , trabalha_em as trab 
-WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'm' 
+WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'm' AND f.numero_departamento = dep.numero_departamento
 )
 ORDER BY Nome_completo;
 >Por fim , foi ordenado em Nome_completo para deixar visualmente mais bonito e fácil de ver
+
+
+(SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", dep.nome_departamento , d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'F', 'femenino ')sexo 
+FROM funcionario AS f , dependente AS d , departamento AS dep , trabalha_em as trab 
+WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'f' AND f.numero_departamento = dep.numero_departamento 
+) 
+UNION 
+(SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", dep.nome_departamento , d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'M', 'masculino ')sexo 
+FROM funcionario AS f , dependente AS d , departamento AS dep , trabalha_em as trab 
+WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'm' AND f.numero_departamento = dep.numero_departamento 
+)
+ORDER BY Nome_completo;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ``QUESTÃO 07: prepare um relatório que mostre, para cada funcionário que NÃO TEM dependente, seu nome completo, departamento e salário.``
 
