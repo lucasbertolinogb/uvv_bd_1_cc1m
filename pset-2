@@ -71,7 +71,16 @@ ORDER BY d.nome_departamento, Nome_completo, p.nome_projeto;
 
 
 10)Questão
+
 SELECT nome_departamento AS "Nome do Departamento" , AVG(salario) AS "Média Salarial" 
 FROM funcionario as f , departamento as dep 
 GROUP BY nome_departamento ;
+
+11)Questão
+
+SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", p.nome_projeto , (horas * 50) AS "Valor do trabalho" , horas 
+FROM funcionario AS f , trabalha_em AS t , projeto AS p 
+WHERE f.cpf = t.cpf_funcionario AND p.numero_projeto = t.numero_projeto ;
+
+
 
