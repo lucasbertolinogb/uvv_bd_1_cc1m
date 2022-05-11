@@ -604,8 +604,35 @@ WHERE t.numero_projeto = p.numero_projeto AND dep.numero_departamento = p.numero
 
 
 ``QUESTÃO 10: prepare um relatório que mostre a média salarial dos funcionários de cada departamento.``
+>OBS: é identico a questão 2 ... 
 
+SELECT nome_departamento AS "Nome do Departamento" , AVG(salario) AS "Média Salarial" 
+> Selecionei nome_departamento da tabela departamento e salario , para o AS usei como cosmético para aparecer no relatório Nome do Departamento e Média Salarial.
 
+FROM funcionario, departamento
+> Já que os dois não possuem colunas iquais eu não precisei dar um funionario.salario e por isso não adcionei AS , pois nesse caso não me serviria para nada. 
 
+GROUP BY nome_departamento ;
+>GROUP BY usado ´para agrupar os resultados em três grupos e para não aparecer uma coluna por causa de AVG.
+
+``QUESTÃO 11: considerando que o valor pago por hora trabalhada em um projeto é de 50 reais, prepare um relatório que mostre o nome completo do funcionário, o nome do projeto e o valor total que o funcionário receberá referente às horas trabalhadas naquele projeto.``
+>OBS : consulta incompleta , pois, falta 3 funcionario ... mais tarde vejo o problema
+
+SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", p.nome_projeto , (horas * 50) AS "Valor do trabalho" 
+FROM funcionario AS f , trabalha_em AS t , projeto AS p 
+WHERE f.cpf = t.cpf_funcionario AND p.numero_projeto = t.numero_projeto ;
+
+``QUESTÃO 12: seu chefe está verificando as horas trabalhadas pelos funcionários nos projetos e percebeu que alguns funcionários, mesmo estando alocadas à algum projeto, não registraram nenhuma hora trabalhada. Sua tarefa é preparar um relatório que liste o nome do departamento, o nome do projeto e o nome dos funcionários que, mesmo estando alocados a algum projeto, não registraram nenhuma hora trabalhada.``
+  
+  SELECT DISTINCT d.nome_departamento AS "Nome do Departamento" , p.nome_projeto AS "Nome do Projeto" , CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , horas 
+ >Usei SELECT DISTINCT para não ter valores duplicados, o resto você já sabe (se não , olhe a questão 1 sobre o uso do AS nesse select) 
+ 
+  FROM departamento AS d , projeto AS p , funcionario AS f , trabalha_em AS t 
+  >Chamei 4 tabelas ,e já que usei mais de 3 tabelas, é uma ideia viável para não se perder em anbiguidade (simplificando, é quando tem duas tabelas que possuem colunas iquais e causaria uma dúvida no sistema) usando AS <apelido>
+  
+ WHERE t.horas = 0 AND p.numero_projeto = t.numero_projeto AND d.numero_departamento = f.numero_departamento AND f.cpf = t.cpf_funcionario ;
+>Finalmente um monte de iqualdade ,para não ter 2304 rolls , onde a principal iqualdade esta em t.horas = 0 para receber somente funcionario qua com 0 horas.
+
+``QUESTÃO 13: durante o natal deste ano a empresa irá presentear todos os funcionários e todos os dependentes (sim, a empresa vai dar um presente para cada funcionário e um presente para cada dependente de cada funcionário) e pediu para que você preparasse um relatório que listasse o nome completo das pessoas a serem presenteadas (funcionários e dependentes), o sexo e a idade em anos completos (para poder comprar um presente adequado). Esse relatório deve estar ordenado pela idade em anos completos, de forma decrescente.``
 
 
