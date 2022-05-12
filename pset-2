@@ -77,6 +77,12 @@ ORDER BY d.nome_departamento, Nome_completo, p.nome_projeto;
 
 9)Questão
 
+SELECT dep.nome_departamento, p.nome_projeto, SUM(horas) 
+FROM departamento AS dep , projeto AS p, trabalha_em AS t 
+WHERE t.numero_projeto = p.numero_projeto AND dep.numero_departamento = p.numero_departamento 
+GROUP BY nome_projeto 
+ORDER BY nome_departamento ASC;
+
 
 10)Questão
 
