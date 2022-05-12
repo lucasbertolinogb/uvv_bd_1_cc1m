@@ -18,6 +18,7 @@ GROUP BY sexo;
 SELECT dep.nome_departamento , CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" ,data_nascimento , 
        TIMESTAMPDIFF (YEAR , data_nascimento,   CURRENT_DATE) AS "Ano" , salario 
 FROM funcionario AS f , departamento AS dep 
+WHERE f.numero_departamento = dep.numero_departamento 
 ORDER BY dep.nome_departamento ;
 
 4)Questão
