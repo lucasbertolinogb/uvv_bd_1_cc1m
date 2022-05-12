@@ -7,11 +7,13 @@ SELECT numero_departamento AS "numero do departamento" ,AVG(salario) AS "média 
 FROM funcionario 
 GROUP BY numero_departamento;
 
+
 2)Questão
 
 SELECT sexo, AVG(salario) AS "média salarial" 
 FROM funcionario 
 GROUP BY sexo;
+
 
 3)Questão 
 
@@ -20,6 +22,7 @@ SELECT dep.nome_departamento , CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultim
 FROM funcionario AS f , departamento AS dep 
 WHERE f.numero_departamento = dep.numero_departamento 
 ORDER BY dep.nome_departamento ;
+
 
 4)Questão
 
@@ -31,6 +34,7 @@ ORDER BY dep.nome_departamento ;
  FROM funcionario 
  WHERE salario > 35.000 ; 
  
+ 
  5) Questão
  
  SELECT dep.nome_departamento AS "nome do departamento" , s.primeiro_nome AS supervisor ,f.primeiro_nome AS funcionario 
@@ -38,19 +42,21 @@ FROM funcionario AS f , funcionario AS s , departamento as dep
 WHERE f.cpf_supervisor = s.cpf AND s.numero_departamento = dep.numero_departamento 
 ORDER BY dep.nome_departamento ASC , s.salario DESC , f.salario DESC ;
 
+
 6)Questão
 
 
-(SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'F', 'femenino ')sexo 
+(SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", dep.nome_departamento , d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade do dependente", REPLACE(d.sexo , 'F', 'femenino ')sexo 
 FROM funcionario AS f , dependente AS d , departamento AS dep , trabalha_em as trab 
-WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'f' 
-)
+WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'f' AND f.numero_departamento = dep.numero_departamento 
+) 
 UNION 
-(SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'M', 'masculino ')sexo 
+(SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", dep.nome_departamento , d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade do dependente", REPLACE(d.sexo , 'M', 'masculino ')sexo 
 FROM funcionario AS f , dependente AS d , departamento AS dep , trabalha_em as trab 
-WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'm' 
+WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'm' AND f.numero_departamento = dep.numero_departamento
 )
 ORDER BY Nome_completo;
+
 
 7)Questão
 
@@ -60,13 +66,14 @@ INNER JOIN departamento AS dep ON f.numero_departamento = dep.numero_departament
 LEFT JOIN dependente AS d ON f.cpf = d.cpf_funcionario 
 WHERE d.nome_dependente IS NULL;
 
+
 8)Questão
 
-SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento AS "Nome do Departamento" ,
-              p.nome_projeto AS "Nome do Projeto" , t.horas 
+SELECT d.nome_departamento AS "Nome do Departamento" , CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", p.nome_projeto AS "Nome do Projeto" , t.horas 
 FROM departamento AS d , funcionario AS f, trabalha_em AS t , projeto AS p 
 WHERE d.numero_departamento = f.numero_departamento AND f.cpf = t.cpf_funcionario AND t.numero_projeto = p.numero_projeto 
 ORDER BY d.nome_departamento, Nome_completo, p.nome_projeto; 
+
 
 9)Questão
 
@@ -77,15 +84,17 @@ SELECT nome_departamento AS "Nome do Departamento" , AVG(salario) AS "Média Sal
 FROM funcionario as f , departamento as dep 
 GROUP BY nome_departamento ;
 
+
 11)Questão
 
 SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", p.nome_projeto , (horas * 50) AS "Valor do trabalho" 
 FROM funcionario AS f , trabalha_em AS t , projeto AS p 
 WHERE f.cpf = t.cpf_funcionario AND p.numero_projeto = t.numero_projeto ;
 
+
 12)Questão
 
-SELECT DISTINCT d.nome_departamento AS "Nome do Departamento" , p.nome_projeto AS "Nome do Projeto" , CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , horas
+SELECT DISTINCT d.nome_departamento AS "Nome do Departamento" , p.nome_projeto AS "Nome do Projeto" , CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , horas 
 FROM departamento AS d , projeto AS p , funcionario AS f , trabalha_em AS t 
 WHERE t.horas = 0 AND p.numero_projeto = t.numero_projeto AND d.numero_departamento = f.numero_departamento AND f.cpf = t.cpf_funcionario ;
 
@@ -109,3 +118,21 @@ WHERE f.numero_departamento = dep.numero_departamento
 GROUP BY nome_departamento;
 
 
+15)Questão
+
+(SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
+WHERE d.numero_departamento = f.numero_departamento AND t.numero_projeto = p.numero_projeto AND f.cpf = t.cpf_funcionario 
+GROUP BY Nome_completo , nome_projeto 
+) 
+UNION 
+(SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+FROM funcionario as f , departamento AS d, projeto AS p , trabalha_em AS t 
+WHERE d.numero_departamento = f.numero_departamento AND 
+      t.numero_projeto = p.numero_projeto AND NOT EXISTs (SELECT * 
+                                                          FROM funcionario AS f , trabalha_em AS t 
+                                                          WHERE f.cpf = t.cpf_funcionario 
+                                                          )
+)
+GROUP BY Nome_completo , nome_projeto
+)
