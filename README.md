@@ -529,7 +529,7 @@ ORDER BY dep.nome_departamento ASC , s.salario DESC , f.salario DESC ;
 
 ``QUESTÃO 06: prepare um relatório que mostre o nome completo dos funcionários que têm dependentes, o departamento onde eles trabalham e, para cada funcionário, também liste o nome completo dos dependentes, a idade em anos de cada dependente e o sexo (o sexo NÃO DEVE aparecer como M ou F, deve aparecer como “Masculino” ou  “Feminino”).``
 
-(SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", dep.nome_departamento , d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'F', 'femenino ')sexo 
+(SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", dep.nome_departamento , d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade do dependente", REPLACE(d.sexo , 'F', 'femenino ')sexo 
 >Nesta parte eu selecionei com DISTINC , pois não aguentava dar triplicidade de valores , usei o mesmo CONCAT e TIMESTAMPDIFF das questôes anteriores, usei o REPLACE que tem a função de substituir APENAS uma palavra por outra, além do nome_departamento que TEM que vir com <dep.> para não ter anbiguidade entre as tabelas (que me aborreceu muito nesta questão)
 
 FROM funcionario AS f , dependente AS d , departamento AS dep , trabalha_em as trab 
@@ -538,7 +538,7 @@ WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'f
 UNION 
 >O coringa que eu usei sabendo que não iria dar para usar o replace em duas palavras foram : d.sexo = 'f' no WHERE o que me faz retornar somente dentro de <>(quer dizer "diferente" em sql) sexo a palavra f e a outra sacada foi UNION para pegar o resto da seleção .
 
-((SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", dep.nome_departamento , d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade", REPLACE(d.sexo , 'M', 'masculino ')sexo 
+((SELECT DISTINCT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", dep.nome_departamento , d.nome_dependente , TIMESTAMPDIFF (YEAR , d.data_nascimento, CURRENT_DATE) AS "Idade do dependete", REPLACE(d.sexo , 'M', 'masculino ')sexo 
 FROM funcionario AS f , dependente AS d , departamento AS dep , trabalha_em as trab 
 WHERE f.cpf = d.cpf_funcionario AND f.cpf = trab.cpf_funcionario AND d.sexo = 'm' AND f.numero_departamento = dep.numero_departamento
 )
@@ -564,7 +564,7 @@ WHERE d.nome_dependente IS NULL;
 
 ``QUESTÃO 08: prepare um relatório que mostre, para cada departamento, os projetos desse departamento e o nome completo dos funcionários que estão alocados em cada projeto. Além disso inclua o número de horas trabalhadas por cada funcionário, em cada projeto``
 
-SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento AS "Nome do Departamento" , p.nome_projeto AS "Nome do Projeto" , t.horas 
+SELECT  d.nome_departamento AS "Nome do Departamento" ,CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , p.nome_projeto AS "Nome do Projeto" , t.horas 
 >Usei o bom nome_completo (eu já usei antes então não irei explicar , se quiser minha explicação vá ler a 4º questão), chamei nome_departamento em departamento, nome_projeto em projeto e horas em trabalha_em e usei o AS como função de estética.
 
 
@@ -579,32 +579,19 @@ ORDER BY d.nome_departamento, Nome_completo, p.nome_projeto;
 
 ``QUESTÃO 09: prepare um relatório que mostre a soma total das horas de cada projeto em cada departamento. Obs.: o relatório deve exibir o nome do departamento, o nome do projeto e a soma total das horas.``
 
+SELECT dep.nome_departamento, p.nome_projeto, SUM(horas)
+>Selecionei nome_departamento da tabela departamento , nome_projeto da tabela projeto e SUM(somar) horas da tabela trabalha_em 
+>OBS: como nenhuma delas tem tabelas iquais e não usei nometabela.algumacoisa, mas lembrar que se ocorrer ambuiguidade é culpa de seu sql (é culpa do sistema não trabalhar direito)
 
-SELECT DISTINCT dep.nome_departamento, p.nome_projeto, SUM(horas) 
 FROM departamento AS dep , projeto AS p, trabalha_em AS t 
+>Aqui eu chamei as tabelas e nomei elas para encurtar os códigos
+
 WHERE t.numero_projeto = p.numero_projeto AND dep.numero_departamento = p.numero_departamento 
+GROUP BY nome_projeto 
+>Esse é o climáx da questão (o que me fez tirar o UNION que causou o encurtou e resolveu o problema) o GROUP BY que agrupou no relatória o pedido da questão
 
-
-
-
-
-
-
-
-SELECT DISTINCT dep.nome_departamento, p.nome_projeto, SUM(horas) 
-FROM departamento AS dep , projeto AS p, trabalha_em AS t 
-WHERE t.numero_projeto = p.numero_projeto AND dep.numero_departamento = p.numero_departamento AND nome_departamento = 'Administração' 
-UNION 
-SELECT DISTINCT dep.nome_departamento, p.nome_projeto, SUM(horas) 
-FROM departamento AS dep , projeto AS p, trabalha_em AS t 
-WHERE t.numero_projeto = p.numero_projeto AND dep.numero_departamento = p.numero_departamento AND nome_departamento = 'Matriz' 
-UNION 
-SELECT DISTINCT dep.nome_departamento, p.nome_projeto, SUM(horas) 
-FROM departamento AS dep , projeto AS p, trabalha_em AS t 
-WHERE t.numero_projeto = p.numero_projeto AND dep.numero_departamento = p.numero_departamento AND nome_departamento = 'Pesquisa'
-
-;
-
+ORDER BY nome_departamento ASC;
+>ORDER BY para acabamento 
 
 ``QUESTÃO 10: prepare um relatório que mostre a média salarial dos funcionários de cada departamento.``
 >OBS: é identico a questão 2 ... 
@@ -670,98 +657,40 @@ GROUP BY nome_departamento;
 >E para acabar de vez na questão é preciso do GROUP BY para juntar somente com o mesmo nome_departamento e não uma COUNT com 8 funcionarios.
 
 ``QUESTÃO 15: como um funcionário pode estar alocado em mais de um projeto, prepare um relatório que exiba o nome completo do funcionário, o departamento desse funcionário e o nome dos projetos em que cada funcionário está alocado. Atenção: se houver algum funcionário que não está alocado em nenhum projeto, o nome completo e o departamento também devem aparecer no relatório.``
-
-
-SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
-FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
-WHERE d.numero_departamento = f.numero_departamento AND t.numero_projeto = p.numero_projeto AND f.cpf = t.cpf_funcionario 
-GROUP BY Nome_completo , nome_projeto
-;
-
-
-
+>OBS:Eu acho que não fiz o relatório certo e como esta dando o mesmo resultado deixei como esta 
 
 (SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+>usei o mesmo nome_completo das questões anteriores , nome_departamento ligado a departamento e nome_projeto ligado a projeto .
+
+
 FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
+>Nesta parte brilha o "AS" e faz com que o código tenha um tamanho menor 
+
 WHERE d.numero_departamento = f.numero_departamento AND t.numero_projeto = p.numero_projeto AND f.cpf = t.cpf_funcionario 
+>Várias iqualdade para não ter os mais de 2304 rolls (e não transformar o computador em um avião)
+
 GROUP BY Nome_completo , nome_projeto 
 ) 
+>O "(" e ")" serve para saber onde esta o select na função
+
+
 UNION 
+>E este é o motivo de ter "("-o o-")" para ter a noção de onde estão os selects 
+
 (SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
 FROM funcionario as f , departamento AS d, projeto AS p , trabalha_em AS t 
-WHERE d.numero_departamento = f.numero_departamento AND t.numero_projeto = p.numero_projeto AND NOT EXISTs (SELECT * 
-                                                                                                            FROM funcionario AS f , trabalha_em AS t 
-                                                                                                            WHERE f.cpf = t.cpf_funcionario 
-                                                                                                            )
+WHERE d.numero_departamento = f.numero_departamento AND 
+      t.numero_projeto = p.numero_projeto AND NOT EXISTs (SELECT * 
+                                                          FROM funcionario AS f , trabalha_em AS t 
+                                                          WHERE f.cpf = t.cpf_funcionario 
+                                                          )
+>Aqui esta o erro/falha que eu não descobri comomudar.
+
 )
-
-
 GROUP BY Nome_completo , nome_projeto
 )
 
-
-
-
-
-SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto , f.cpf 
-FROM funcionario as f, departamento AS d, projeto AS p 
-RIGHT JOIN trabalha_em AS t ON t.cpf_funcionario = f.cpf 
-WHERE t.cpf_funcionario IS NULL 
-GROUP BY Nome_completo , nome_projeto 
-;
-
-
-
-
-
-
-(SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
-FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
-WHERE f.cpf = t.cpf_funcionario AND t.numero_projeto = p.numero_projeto 
-GROUP BY Nome_completo , nome_projeto 
-) 
-UNION 
-(SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
-FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
-WHERE f.cpf = t.cpf_funcionario AND t.numero_projeto <> p.numero_projeto 
-GROUP BY Nome_completo , nome_projeto
-)
-;
-
-
-(SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
-FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
-WHERE f.cpf = t.cpf_funcionario AND t.numero_projeto = p.numero_projeto 
-GROUP BY Nome_completo , nome_projeto 
-) 
-UNION 
-(SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
-FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
-WHERE f.cpf <> t.cpf_funcionario AND t.numero_projeto <> p.numero_projeto 
-GROUP BY Nome_completo , nome_projeto 
-)
-;
-
-
-
-
-
-
-SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
-FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
-WHERE f.cpf = t.cpf_funcionario 
-GROUP BY Nome_completo , nome_projeto 
-ORDER BY Nome_completo
-;
-
-SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", numero_projeto 
-FROM funcionario AS f , trabalha_em AS t 
-WHERE f.cpf != t.cpf_funcionario 
-
-66655444476     |              3 |  40.0 |
-98798798733     |             10 |  35.0 |
-99988777767     |             30 |  30.0 |
 
 FALTOU:
-Ronaldo , jennifer  e andré
+Ronaldo , jennifer  e andré nesta consulta + os que não trabalham
 
