@@ -701,8 +701,23 @@ GROUP BY nome_departamento;
 
 ``QUESTÃO 15: como um funcionário pode estar alocado em mais de um projeto, prepare um relatório que exiba o nome completo do funcionário, o departamento desse funcionário e o nome dos projetos em que cada funcionário está alocado. Atenção: se houver algum funcionário que não está alocado em nenhum projeto, o nome completo e o departamento também devem aparecer no relatório.``
 
+SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+FROM funcionario as f, departamento AS d, projeto AS p 
+WHERE d.numero_departamento = f.numero_departamento AND p.numero_departamento = d.numero_departamento 
+GROUP BY Nome_completo, no
 
 
+SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
+WHERE d.numero_departamento = f.numero_departamento AND p.numero_departamento = d.numero_departamento AND f.cpf = t.cpf_funcionario 
+GROUP BY Nome_completo , nome_projeto
+;
+
+SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
+WHERE d.numero_departamento = f.numero_departamento AND f.cpf = t.cpf_funcionario AND t.numero_projeto = p.numero_projeto 
+GROUP BY Nome_completo , nome_projeto
+;
 
 
 
