@@ -571,16 +571,16 @@ FROM departamento AS d , funcionario AS f, trabalha_em AS t , projeto AS p
 >Agora o AS realmente mostra seu valor e deixar de seu um produto estético e passar a ser um otimizador na linguagem SQL fazendo seu código ser mais rápido de ser lido
 
 WHERE d.numero_departamento = f.numero_departamento AND f.cpf = t.cpf_funcionario AND t.numero_projeto = p.numero_projeto 
->.O numero_departamento sendo iqualados nas tabelas departamento e funcionario faz com que a seleção sai de 2304 rolls (pode ser traduzida em lista) para 768 rolls (é muito bom para prática manual vulgo trabalho braçal) ,ou seja , ele só seleciona partes em que as duas tabelas tem a o mesmo numero_departamento , seguindo essa lógica em cpf (768 -> 128) e numero_projeto (128 -> 16) temos a relação que a questão pede.
+>.O numero_departamento sendo iqualados nas tabelas departamento e funcionario faz com que a seleção sai de 2304 rolls (pode ser traduzida em lista) para 768 rolls (é muito bom para prática manualmente, vulgo trabalho braçal) ,ou seja , ele só seleciona partes em que as duas tabelas tem a o mesmo numero_departamento , seguindo essa lógica em cpf (768 -> 128) e numero_projeto (128 -> 16) temos a relação que a questão pede.
 
 ORDER BY d.nome_departamento, Nome_completo, p.nome_projeto; 
->E finalmente  uma organização para deixar mais coerente , onde nome_departamento
+>E finalmente  uma organização para deixar mais coerente , onde nome_departamento esta sendo a base da ordenação (neste caso de A -> Z), seguido de Nome_completo e p.nome_projeto .
 
 ``QUESTÃO 09: prepare um relatório que mostre a soma total das horas de cada projeto em cada departamento. Obs.: o relatório deve exibir o nome do departamento, o nome do projeto e a soma total das horas.``
 
 SELECT dep.nome_departamento, p.nome_projeto, SUM(horas)
 >Selecionei nome_departamento da tabela departamento , nome_projeto da tabela projeto e SUM(somar) horas da tabela trabalha_em 
->OBS: como nenhuma delas tem tabelas iquais e não usei nometabela.algumacoisa, mas lembrar que se ocorrer ambuiguidade é culpa de seu sql (é culpa do sistema não trabalhar direito)
+>OBS: como nenhuma delas tem tabelas iquais e não usei "nometabela.algumacoisa", mas é sempre bom lembrar que se ocorrer ambuiguidade é culpa de seu sql (é culpa do sistema não trabalhar direito)
 
 FROM departamento AS dep , projeto AS p, trabalha_em AS t 
 >Aqui eu chamei as tabelas e nomei elas para encurtar os códigos
