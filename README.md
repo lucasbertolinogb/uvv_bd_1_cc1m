@@ -701,25 +701,97 @@ GROUP BY nome_departamento;
 
 ``QUESTÃO 15: como um funcionário pode estar alocado em mais de um projeto, prepare um relatório que exiba o nome completo do funcionário, o departamento desse funcionário e o nome dos projetos em que cada funcionário está alocado. Atenção: se houver algum funcionário que não está alocado em nenhum projeto, o nome completo e o departamento também devem aparecer no relatório.``
 
-SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+
+SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
+WHERE d.numero_departamento = f.numero_departamento AND t.numero_projeto = p.numero_projeto AND f.cpf = t.cpf_funcionario 
+GROUP BY Nome_completo , nome_projeto
+;
+
+
+
+
+(SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
+WHERE d.numero_departamento = f.numero_departamento AND t.numero_projeto = p.numero_projeto AND f.cpf = t.cpf_funcionario 
+GROUP BY Nome_completo , nome_projeto 
+) 
+UNION 
+(SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+FROM funcionario as f , departamento AS d, projeto AS p , trabalha_em AS t 
+WHERE d.numero_departamento = f.numero_departamento AND t.numero_projeto = p.numero_projeto AND NOT EXISTs (SELECT * 
+                                                                                                            FROM funcionario AS f , trabalha_em AS t 
+                                                                                                            WHERE f.cpf = t.cpf_funcionario 
+                                                                                                            )
+)
+
+
+GROUP BY Nome_completo , nome_projeto
+)
+
+
+
+
+
+SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto , f.cpf 
 FROM funcionario as f, departamento AS d, projeto AS p 
-WHERE d.numero_departamento = f.numero_departamento AND p.numero_departamento = d.numero_departamento 
-GROUP BY Nome_completo, no
-
-
-SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
-FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
-WHERE d.numero_departamento = f.numero_departamento AND p.numero_departamento = d.numero_departamento AND f.cpf = t.cpf_funcionario 
-GROUP BY Nome_completo , nome_projeto
-;
-
-SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
-FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
-WHERE d.numero_departamento = f.numero_departamento AND f.cpf = t.cpf_funcionario AND t.numero_projeto = p.numero_projeto 
-GROUP BY Nome_completo , nome_projeto
+RIGHT JOIN trabalha_em AS t ON t.cpf_funcionario = f.cpf 
+WHERE t.cpf_funcionario IS NULL 
+GROUP BY Nome_completo , nome_projeto 
 ;
 
 
 
 
+
+
+(SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
+WHERE f.cpf = t.cpf_funcionario AND t.numero_projeto = p.numero_projeto 
+GROUP BY Nome_completo , nome_projeto 
+) 
+UNION 
+(SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
+WHERE f.cpf = t.cpf_funcionario AND t.numero_projeto <> p.numero_projeto 
+GROUP BY Nome_completo , nome_projeto
+)
+;
+
+
+(SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
+WHERE f.cpf = t.cpf_funcionario AND t.numero_projeto = p.numero_projeto 
+GROUP BY Nome_completo , nome_projeto 
+) 
+UNION 
+(SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
+WHERE f.cpf <> t.cpf_funcionario AND t.numero_projeto <> p.numero_projeto 
+GROUP BY Nome_completo , nome_projeto 
+)
+;
+
+
+
+
+
+
+SELECT  CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo" , d.nome_departamento , p.nome_projeto 
+FROM funcionario as f, departamento AS d, projeto AS p , trabalha_em AS t 
+WHERE f.cpf = t.cpf_funcionario 
+GROUP BY Nome_completo , nome_projeto 
+ORDER BY Nome_completo
+;
+
+SELECT CONCAT(primeiro_nome,' ' , nome_meio, ' ' , ultimo_nome ) AS "Nome_completo", numero_projeto 
+FROM funcionario AS f , trabalha_em AS t 
+WHERE f.cpf != t.cpf_funcionario 
+
+66655444476     |              3 |  40.0 |
+98798798733     |             10 |  35.0 |
+99988777767     |             30 |  30.0 |
+
+FALTOU:
+Ronaldo , jennifer  e andré
 
