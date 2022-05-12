@@ -521,8 +521,7 @@ FROM funcionario AS f , funcionario AS s , departamento as dep
 >Agora vem a sacada : usei duas vezes a mesma tabela e para não dar um erro eu usei AS para diferencia-las e é claro tive que colocar a nomenclatura para diferencia.
 
 WHERE f.cpf_supervisor = s.cpf AND s.numero_departamento = dep.numero_departamento 
->É nesta parte onde o uso de duas tabelas entra , para eu não deixar o cpf_supervisor multiplicar a tabela eu faço dela iqual a funcionario , logo ela vai retornar apenas uma vez
->*lembrar para achar um jeito de explicar essa parte
+>É nesta parte onde o uso de duas tabelas entra , para eu não deixar o cpf_supervisor multiplicar a tabela eu faço dela iqual a funcionario , logo ela vai retornar apenas uma vez , em seguida tem o numero_departamento sendo iqualado na tabela funcionario s e f o que faz o resultado ser o que a questão pede
 
 ORDER BY dep.nome_departamento ASC , s.salario DESC , f.salario DESC ;
 >Finalizando com order by com asc (ascedente) que no caso é de A -> Z e desc (descender) para o salario MAIOR -> menor.
